@@ -4,7 +4,7 @@
   </a>
 </p>
 <h1 align="center">
-  Gatsby minimal starter
+  cia.im main site
 </h1>
 
 ## 🚀 Quick start
