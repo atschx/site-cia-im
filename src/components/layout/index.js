@@ -46,7 +46,8 @@ const Layout = ( props ) => {
                 {props.children}
             </main>
 
-            <p>Using Gatsby, hosted by Gatsby Cloud.</p>
+            <p>Using <Link to="https://www.gatsbyjs.com/docs/tutorial/">Gatsby</Link>, hosted by Gatsby Cloud.</p>
+            
         </div>
     )
 }

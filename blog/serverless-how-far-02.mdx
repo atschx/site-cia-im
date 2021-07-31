@@ -1,1 +1,209 @@
-2
+---
+title: "Serverless 还多远 ？- 实践篇"
+date: 2021-01-18T00:16:57+08:00
+---
+
+## 惊雷
+
+CloudNative CNCF 这几年赚足了眼球，Service Mesh 吃尽了风头，AI 火了一波又一波，心心念的 Serverless 在哪里 ？
+
+![serverless-bundled-provider](./../src/images/serverless-bundled-provider.png)
+
+莫灰心，该来的总会来。在看到 `Serverless Framework` 之前，我有时在想是不是因为 `Serverless` 下的函数式编程模式太琐碎，管理太繁琐，无法规模化，所以没办法否极泰来。体验 sls 之后，我又对它充满了无限期许。。。摩拳擦掌，霍霍一下。一行代码即可安装。（npm 打遍天下无敌手）
+
+```sh
+➜  ~ npm install -g serverless
+```
+
+官方也有其他安装方式，一时  ` npm -i xx` 一时爽，一直`npm -i xx` 一直爽（就跟 brew doctor 一样，有事没事`brew doctor`一下）。
+
+[www.serverless.com](https://www.serverless.com/framework/docs/getting-started/)
+​
+那就随便找个目录，sls 一下。
+
+```sh
+➜  ~ sls
+Serverless: 当前未检测到 Serverless 项目，是否希望新建一个项目？ Yes
+无可厚非，这个问题只有一个答案：Yes。
+Serverless: 请选择你希望创建的 Serverless 应用 (Use arrow keys or type to search)
+❯ Egg.js 项目模版
+  Express.js 项目模版
+  Flask 项目模版
+  fullstack
+  fullstack-nosql
+  Koa.js 项目模版
+Serverless: 请选择你希望创建的 Serverless 应用 fullstack
+什么项目模版，都是浮云，傲娇的后端永远只有一个答案：fullstack。
+Serverless: 请输入项目名称 homeless
+Serverless: 正在安装 fullstack 应用...
+fullstack › Created
+homeless 项目已成功创建！
+Serverless: 是否希望立即将该项目部署到云端？ (Y/n)
+```
+
+2020年，还没买到房的人创建项目名称的时候，最爱起 “homeless”。几秒过后，它竟然问我要不要部署到云端？不管三七二十一，对问题永远回答Yes准没错。 
+
+没看错，用Wechat扫码。
+
+```bash
+Wait login...
+Login successful for TencentCloud.
+
+serverless ⚡framework
+
+fullstack-vpc:
+  region:        ap-guangzhou
+  zone:          ap-guangzhou-2
+  vpcId:         vpc-b94ql9pr
+  vpcName:       serverless
+  subnetId:      subnet-qe5gb3a6
+  subnetName:    serverless
+  vendorMessage: null
+
+fullstack-db:
+  region:         ap-guangzhou
+  zone:           ap-guangzhou-2
+  vpcConfig:
+    subnetId: subnet-qe5gb3a6
+    vpcId:    vpc-b94ql9pr
+  dBInstanceName: fullstack-db
+  dBInstanceId:   postgres-gm5zucef
+  private:
+    connectionString: postgresql://tencentdb_gm5zucef:3c2u%5E7-9_oFzfZe@10.0.0.3:5432/tencentdb_gm5zucef
+    host:             10.0.0.3
+    port:             5432
+    user:             tencentdb_gm5zucef
+    password:         3c2u^7-9_oFzfZe
+    dbname:           tencentdb_gm5zucef
+  vendorMessage:  null
+
+420s › homeless › Deploying ...
+```
+
+扫码授权后，它开始 Deploying 了！！！！
+然鹅，deploying 了 420s 后，我放弃了。。。
+
+```bash
+fullstack-api: Request timed out after 10 minutes
+
+  帮助文档: https://cloud.tencent.com/document/product/1154/39270
+  获取支持: https://cloud.tencent.com/act/event/Online_service
+  问答社区: https://cloud.tencent.com/developer/ask
+
+fullstack-frontend: The referenced output "${output:dev:homeless:fullstack-api.apigw.url}" was not found
+
+  帮助文档: https://cloud.tencent.com/document/product/1154/39270
+  获取支持: https://cloud.tencent.com/act/event/Online_service
+  问答社区: https://cloud.tencent.com/developer/ask
+
+637s › homeless › Success
+```
+
+这个 Success 明显的在敷衍我。生气脸 :( 
+
+## 换 AWS 测试下
+
+选择一个目录，执行类似步骤
+
+```sh
+➜  aws-sls sls
+
+Serverless: No project detected. Do you want to create a new one? Yes
+Serverless: What do you want to make? AWS Node.js
+Serverless: What do you want to call this project? aws-test
+
+Project successfully created in 'aws-test' folder.
+
+You can monitor, troubleshoot, and test your new service with a free Serverless account.
+
+Serverless: Would you like to enable this? Yes
+
+Serverless: What application do you want to add this to? [create a new app]
+Serverless: What do you want to name this application? homeless
+Serverless: What deployment profile do you want to use? default
+
+Your project is setup for monitoring, troubleshooting and testing
+
+Deploy your project and monitor, troubleshoot and test it:
+- Run “serverless deploy” to deploy your service.
+- Run “serverless dashboard” to view the dashboard.
+```
+sls 命令之后，就是不停的回答问题。
+与之前不同的是，这一次没有问是否部署到云端。只是给出了如何执行部署的提示，那就自己部署下吧。
+先跳转到项目名称下：执行 sls deploy --debug
+
+```sh
+➜ aws-test sls deploy --debug // highlight-line
+
+Serverless: Packaging service...
+Serverless: Excluding development dependencies...
+Serverless: Creating Stack...
+Serverless: Publishing service to the Serverless Dashboard...
+Serverless: Successfully published your service to the Serverless Dashboard: https://app.serverless.com/unbreak/apps/homeless/aws-test/dev/us-east-1
+
+  Serverless Error ---------------------------------------
+
+  User: arn:aws:iam::626557869610:user/serverless-albert is not authorized to perform: cloudformation:CreateStack on resource: arn:aws:cloudformation:us-east-1:626557869610:stack/aws-test-dev/*
+
+  Get Support --------------------------------------------
+     Docs:          docs.serverless.com
+     Bugs:          github.com/serverless/serverless/issues
+     Issues:        forum.serverless.com
+
+  Your Environment Information ---------------------------
+     Operating System:          darwin
+     Node Version:              12.3.1
+     Framework Version:         2.1.1
+     Plugin Version:            4.0.4
+     SDK Version:               2.3.2
+     Components Version:        3.1.3
+```
+Error 了，User: arn:aws:iam::626557869610:user/serverless-albert is not authorized to perform: cloudformation:CreateStack on resource: arn:aws:cloudformation:us-east-1:626557869610:stack/aws-test-dev/* 没有权限。
+那就分配下权限吧，直接附加下 `AdministratorAccess` 策略，附加完成后再次重复 deploy。
+
+``` sh
+➜  aws-test sls deploy --debug
+Serverless: Packaging service...
+Serverless: Excluding development dependencies...
+Serverless: Creating Stack...
+Serverless: Checking Stack create progress...
+........
+Serverless: Stack create finished...
+Serverless: Uploading CloudFormation file to S3...
+Serverless: Uploading artifacts...
+Serverless: Uploading service aws-test.zip file to S3 (122.45 KB)...
+Serverless: Validating template...
+Serverless: Updating Stack...
+Serverless: Checking Stack update progress...
+.....................
+Serverless: Stack update finished...
+Service Information
+service: aws-test
+stage: dev
+region: us-east-1
+stack: aws-test-dev
+resources: 8
+api keys:
+  None
+endpoints:
+  None
+functions:
+  hello: aws-test-dev-hello
+layers:
+  None
+Serverless: Publishing service to the Serverless Dashboard...
+Serverless: Successfully published your service to the Serverless Dashboard: https://app.serverless.com/unbreak/apps/homeless/aws-test/dev/us-east-1
+```
+
+部署成功，提示访问 Serverless Dashboard: https://app.serverless.com/unbreak/apps/homeless/aws-test/dev/us-east-1
+发生了什么？
+
+整个执行过程应该2分钟左右
+触发调用一下这个应用
+
+回到 Serverless Dashboard 查看。
+
+整个使用体验，可接受。
+远吗？
+这一次在腾讯云上虽然没有成功，但在之前的测试中都是没有问题的。说明云厂商还任重道远，我们继续期待吧。
+下一期，我们来说一下这到底怎么回事？
