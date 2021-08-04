@@ -18,15 +18,15 @@ module.exports = {
             markdownCaptions: true
           },
         },
-          {
-            resolve: `gatsby-remark-autolink-headers`,
-            options: {
-              className: `header-link-icon`,
-              maintainCase: false,
-              removeAccents: true,
-              isIconAfterHeader: true,
-            }
+        {
+          resolve: `gatsby-remark-autolink-headers`,
+          options: {
+            className: `header-link-icon`,
+            maintainCase: false,
+            removeAccents: true,
+            isIconAfterHeader: true,
           }
+        }
         ]
       }
     },
