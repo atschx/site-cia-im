@@ -8,12 +8,23 @@ Using Gatsby, hosted by Gatsby Cloud.
 
     ```shell
     npm install
-    gat develop
     ```
 
-2. click 
+2. install gatsby-cli
 
-[having fun](https://cia.im)
+    ```sh
+    npm install -g gatsby-cli
+    ```
+
+3. just run it
+
+    ```sh
+    gatsby develop
+    ```
+
+4. click 
+
+[🍺having fun！](http://localhost:8000/)
 
 
 EOF
