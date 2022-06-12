@@ -1,0 +1,277 @@
+---
+title: "新 Mac(Apple Silicon) 配置开发环境"
+date: 2022-06-11T23:29:15+08:00
+tag: 前端
+---
+
+<img src="https://pic2.zhimg.com/80/v2-1894b8c0cf98e7580b874ea673a08a45_1440w.jpg" style="zoom:80%;" alt='outline'/>
+
+
+## 小记
+
+2020 年 11 月写了篇《新 Mac 如何优雅地配置 Java 开发环境》的文章，一直没下决心购买 `Apple Silicon` 系列的新 Mac，也就没动力更新文章。
+
+时隔 2 年，M1 芯片的成功有目共睹，M2 也已经款款走来。
+
+|                时间 | 事件                  |
+| ------------------: | :-------------------- |
+| 2020 年 11 月 11 日 | 发布 M1               |
+| 2021 年 10 月 19 日 | 发布 M1 Pro 和 M1 Max |
+| 2022 年 03 月 09 日 | 发布 M1 Ultra         |
+| 2022 年 06 月 07 日 | 发布 M2               |
+
+今天新 Mac 到手，顺便来更新一波吧。
+
+## 升级版
+
+> 之前一直推荐使用 `brew install openjdk`，这是目前为止看上去最优雅的方式。今天我们来换个胃口，手动安装一下 `openjdk@17 `。2022 年，还是推荐 openjdk 11，其次就是 17。
+
+![img](https://pic3.zhimg.com/80/v2-12d94487550aee4a0c5f50417c0df2ea_1440w.jpg)
+
+如果你是一个以 Java 为主力语言的后端工程师，新 Mac 到手后第一件事可以先安装一下这个由 azul[[1\]](https://zhuanlan.zhihu.com/p/527225678#ref_1)（The Java platform for the modern cloud enterprise）基于 openjdk 发行的 JDK 17 （LTS 版本）截止到 2022 年 06 月 11 日建议安装 JDK 17 （LTS版本）。
+
+<img src="https://pic2.zhimg.com/80/v2-b3618f91831af320e6475209840de5c1_1440w.jpg" alt="img" style="zoom:80%;" />
+
+就它
+
+[https://www.azul.com/downloads/?version=java-17-lts&os=macos&architecture=arm-64-bit&package=jdk](https://link.zhihu.com/?target=https%3A//www.azul.com/downloads/%3Fversion%3Djava-17-lts%26os%3Dmacos%26architecture%3Darm-64-bit%26package%3Djdk)
+
+安装之后效果如下：
+
+```bash
+~  tree /Library/Java -L 2
+/Library/Java
+├── Extensions
+└── JavaVirtualMachines
+    ├── openjdk-11.jdk -> /opt/homebrew/opt/openjdk@11/libexec/openjdk.jdk
+    ├── openjdk-17.jdk -> /opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk
+    └── zulu-17.jdk
+```
+
+版本切换，将下面的脚本贴到 .zshrc 的末尾。
+
+```bash
+export JAVA_HOME=$(/usr/libexec/java_home -v1.8)
+export JAVA_8_HOME=$(/usr/libexec/java_home -v1.8)
+export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
+export JAVA_17_HOME=$(/usr/libexec/java_home -v17)
+
+alias jdk8='export JAVA_HOME=$JAVA_8_HOME && export PATH="/usr/local/sbin:$JAVA_HOME/bin:$PATH"'
+alias jdk11='export JAVA_HOME=$JAVA_11_HOME && export PATH="/usr/local/sbin:$JAVA_HOME/bin:$PATH"'
+alias jdk17='export JAVA_HOME=$JAVA_17_HOME && export PATH="/usr/local/sbin:$JAVA_HOME/bin:$PATH"'
+
+export PATH="/usr/local/sbin:$JAVA_HOME/bin:$PATH"
+```
+
+使用的时候直接敲`jdk8` 或 `jdk11` 或 `jdk17` 就简单的切换了。
+
+有人说为啥不用 jenv[[2\]](https://zhuanlan.zhihu.com/p/527225678#ref_2)？其实这个脚本挺好的，不用它只是作为后端工程师最后的一点骄傲吧。
+
+## 来个清单
+
+### Docker
+
+只是装个 JDK 肯定是不能满足日常需求的，想让本地机器环境干净清爽，以前的解决方案是`Vargrant + VirtualBox` ，现在的解决方案没有之一就是 **Docker**。
+
+![img](https://pic4.zhimg.com/80/v2-d109a6b0cec6346038a70f33ee1e63f7_1440w.jpg)
+
+Docker Desktop 竟然都需要 1.6 GB 了
+
+![img](https://pic1.zhimg.com/80/v2-c5e6624901792aee7f1fbaef92ea6458_1440w.jpg)
+
+要啥有啥
+
+装完 Docker 基本就可以折腾一下这个折腾一下那个，玩得不亦乐乎。
+
+### IDEA
+
+没钱买旗舰版，Community 社区版对于我而言够了，平时写个代码不复杂。
+
+
+
+![img](https://pic4.zhimg.com/80/v2-5a8f4436af493ebc18c20292c14f519f_1440w.jpg)
+
+到这里初级 Java 工程师就可以悠哉悠哉地工作了。
+
+![img](https://pic3.zhimg.com/80/v2-68a7ec4e1255e193d695e96a4642812a_1440w.jpg)
+
+等等，写代码是需要版本管理的，Git 是绕不开的主题。
+
+![img](https://pic4.zhimg.com/80/v2-84113c3e84ef76fb193888a4663a072f_1440w.jpg)git 命令触发安装 developer tools
+
+作为开发者，建议在默认的终端下执行下下面的命令：
+
+```text
+sudo rm -rf /Library/Developer/CommandLineTools
+sudo xcode-select --install
+```
+
+当然，如果你已经安装过 xcode 这一步就不需要了。
+
+哦，对了。git 可以设置一个不错查看提交日志 的 alias。
+
+```bash
+git config --global alias.tree 'log --graph --full-history --color --date=short --pretty=format:"%Cred%x09%h %Creset%ad%Cblue%d %Creset %s %C(bold)(%an)%Creset"' 
+```
+
+### oh-my-zsh[[3\]](https://zhuanlan.zhihu.com/p/527225678#ref_3)
+
+大部分程序 GG 会喜欢用 zsh。
+
+```bash
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+
+
+![img](https://pic2.zhimg.com/80/v2-69c2c82da12b09419d2a9f5055edcd95_1440w.jpg)
+
+### iTerms2[[4\]](https://zhuanlan.zhihu.com/p/527225678#ref_4)
+
+不喜欢用自带的终端，喜欢用 iTerms2。
+
+![img](https://pic3.zhimg.com/80/v2-ee6e7e4868c90f4f978609c432b981b2_1440w.jpg)
+
+### Home brew[[5\]](https://zhuanlan.zhihu.com/p/527225678#ref_5)
+
+安装软件也比较手懒，然后就有了 Homebrew。
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+本质上就是一堆基于git管理的脚本文件，这个仓库因为包含了各种变更信息，所以有点大。
+
+```text
+➜  ~ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+==> Checking for `sudo` access (which may request your password)...
+Password:
+==> This script will install:
+/opt/homebrew/bin/brew
+/opt/homebrew/share/doc/homebrew
+/opt/homebrew/share/man/man1/brew.1
+/opt/homebrew/share/zsh/site-functions/_brew
+/opt/homebrew/etc/bash_completion.d/brew
+/opt/homebrew
+==> The following new directories will be created:
+/opt/homebrew/bin
+/opt/homebrew/etc
+/opt/homebrew/include
+/opt/homebrew/lib
+/opt/homebrew/sbin
+/opt/homebrew/share
+/opt/homebrew/var
+/opt/homebrew/opt
+/opt/homebrew/share/zsh
+/opt/homebrew/share/zsh/site-functions
+/opt/homebrew/var/homebrew
+/opt/homebrew/var/homebrew/linked
+/opt/homebrew/Cellar
+/opt/homebrew/Caskroom
+/opt/homebrew/Frameworks
+
+Press RETURN/ENTER to continue or any other key to abort:
+==> /usr/bin/sudo /usr/bin/install -d -o root -g wheel -m 0755 /opt/homebrew
+==> /usr/bin/sudo /bin/mkdir -p /opt/homebrew/bin /opt/homebrew/etc /opt/homebrew/include /opt/homebrew/lib /opt/homebrew/sbin /opt/homebrew/share /opt/homebrew/var /opt/homebrew/opt /opt/homebrew/share/zsh /opt/homebrew/share/zsh/site-functions /opt/homebrew/var/homebrew /opt/homebrew/var/homebrew/linked /opt/homebrew/Cellar /opt/homebrew/Caskroom /opt/homebrew/Frameworks
+==> /usr/bin/sudo /bin/chmod ug=rwx /opt/homebrew/bin /opt/homebrew/etc /opt/homebrew/include /opt/homebrew/lib /opt/homebrew/sbin /opt/homebrew/share /opt/homebrew/var /opt/homebrew/opt /opt/homebrew/share/zsh /opt/homebrew/share/zsh/site-functions /opt/homebrew/var/homebrew /opt/homebrew/var/homebrew/linked /opt/homebrew/Cellar /opt/homebrew/Caskroom /opt/homebrew/Frameworks
+==> /usr/bin/sudo /bin/chmod go-w /opt/homebrew/share/zsh /opt/homebrew/share/zsh/site-functions
+==> /usr/bin/sudo /usr/sbin/chown owls /opt/homebrew/bin /opt/homebrew/etc /opt/homebrew/include /opt/homebrew/lib /opt/homebrew/sbin /opt/homebrew/share /opt/homebrew/var /opt/homebrew/opt /opt/homebrew/share/zsh /opt/homebrew/share/zsh/site-functions /opt/homebrew/var/homebrew /opt/homebrew/var/homebrew/linked /opt/homebrew/Cellar /opt/homebrew/Caskroom /opt/homebrew/Frameworks
+==> /usr/bin/sudo /usr/bin/chgrp admin /opt/homebrew/bin /opt/homebrew/etc /opt/homebrew/include /opt/homebrew/lib /opt/homebrew/sbin /opt/homebrew/share /opt/homebrew/var /opt/homebrew/opt /opt/homebrew/share/zsh /opt/homebrew/share/zsh/site-functions /opt/homebrew/var/homebrew /opt/homebrew/var/homebrew/linked /opt/homebrew/Cellar /opt/homebrew/Caskroom /opt/homebrew/Frameworks
+==> /usr/bin/sudo /usr/sbin/chown -R owls:admin /opt/homebrew
+==> /usr/bin/sudo /bin/mkdir -p /Users/owls/Library/Caches/Homebrew
+==> /usr/bin/sudo /bin/chmod g+rwx /Users/owls/Library/Caches/Homebrew
+==> /usr/bin/sudo /usr/sbin/chown -R owls /Users/owls/Library/Caches/Homebrew
+==> Downloading and installing Homebrew...
+```
+
+## 偶尔写点前端
+
+前端已经不是刚入行的工具链，以前
+
+### nvm[[6\]](https://zhuanlan.zhihu.com/p/527225678#ref_6)
+
+Node Version Manager：Manage multiple Node.js versions.
+
+```bash
+~ brew install nvm
+# 或者直接使用官方的脚本安装
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+```
+
+然后就可以 `nvm install x.x.x `指定版本安装了。
+
+```bash
+➜  ~ nvm install 16.15.1
+Downloading and installing node v16.15.1...
+Downloading https://nodejs.org/dist/v16.15.1/node-v16.15.1-darwin-arm64.tar.xz...
+####################################################################################################################################################################################### 100.0%
+Computing checksum with shasum -a 256
+Checksums matched!
+Now using node v16.15.1 (npm v8.11.0)
+Creating default alias: default -> 16.15.1 (-> v16.15.1)
+```
+
+我这里就安装了 2 个LTS版本的，使用 `nvm use` 命令按需切换即可。
+
+![img](https://pic2.zhimg.com/80/v2-9ff41dfd56489e136bebf85b43ee0dd5_1440w.jpg)nvm ls 
+
+查看已安装的 node 版本
+
+大部分前端工作中会使用到 npm ，不过现在还是推荐使用 yarn。
+
+现在是 2022 年了，再去争论 `react/vue/angular` 谁是第一已经没有意义，需要的时候都顺手学一下，技不压身。如果问现在推荐哪个，那就首推 `react` 吧。哦，对了。做前端的你，需要永远记住前端项目下有个 `node_modules` ，这是一道明媚的忧伤，提交代码和清理空间时一定要谨记。
+
+### Gatsbyjs
+
+基于这个名字不错，加上他们做得也还不错。国内不温不火，大家都在沉浸在造轮子的快乐中。
+
+![img](https://pic3.zhimg.com/80/v2-d3a7ea091b7ba92f337599064dc71996_1440w.jpg)
+
+感兴趣，了解一下吧
+
+前端涉世未深的我，顺着他们的文档简单 demo 走了一遍，体验尚可。
+
+通过 Gatsby Cloud 部署的小站在这里：[https://cia.im](https://link.zhihu.com/?target=https%3A//cia.im/) 。
+
+## 其他
+
+### Draw-io [[7\]](https://zhuanlan.zhihu.com/p/527225678#ref_7)
+
+开源免费的画图神器，流程图，架构图，UML 等等。
+
+### Typora[[8\]](https://zhuanlan.zhihu.com/p/527225678#ref_8)
+
+所见即所得的 Markdown 编写工具。以前免费，现在 100元内买断。
+
+### Bear Pro
+
+小而美的产品，但是真的太小而美了。*笔记一多心里不稳妥，这里不推荐了。*
+
+### Notion[[9\]](https://zhuanlan.zhihu.com/p/527225678#ref_9)
+
+上面最后的产出物，我现在习惯备份在 notion 上。notion 的 `block` 是真的可玩性很高，同时 database 又开放 API，对于工程师而言甚好。
+
+## 总结
+
+到这里，我们总结一下。
+
+![img](https://pic2.zhimg.com/80/v2-8297f4df8d96c9d73153c8de496815e9_1440w.jpg)
+
+本文用到的部分安装包
+
+M1 芯片的 Mac 对于 2022 年的从事以 Java 语言开发的后端工程师来讲没有影响；对从事前端工程师也没有影响。
+
+- 对 Go 语言为主的开发者没有影响
+- 对从事Native 开发的工程师没有影响
+- 对 xxx 的也没有影响。。。
+
+也许苹果答应大家的 2 年芯片架构切换期，它真做到了。
+
+## 阅读原文
+
+> 如果你感兴趣，可以点击👇。 
+
+1. [🔗新 Mac 如何优雅地配置 Java 开发环境](https://zhuanlan.zhihu.com/p/298535991)
+2. [🔗新 Mac(Apple Silicon) 配置开发环境](https://zhuanlan.zhihu.com/p/527225678)
+
