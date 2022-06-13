@@ -4,8 +4,7 @@ import {
     container,
     siteTitle,
     navLinks,
-    navLinkItem,
-    heading
+    navLinkItem
 } from './index.module.css'
 
 const Layout = (props) => {
@@ -42,7 +41,7 @@ const Layout = (props) => {
                 </div>
             </div>
 
-            <main>
+            <main class="site-body">
                 <h1 class="post-title">{props.pageTitle}</h1>
                 {props.children}
             </main>
