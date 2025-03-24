@@ -4,13 +4,13 @@ import { graphql } from 'gatsby'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 
 const AboutPage = ({ data }) => {
-    return (
-        <Layout pageTitle="Write now,think more(different).">
-            <MDXRenderer>
-                {data.mdx.body}
-            </MDXRenderer>
-        </Layout>
-    )
+  return (
+    <Layout pageTitle="Write now,think more(different).">
+      <MDXRenderer>
+        {data.mdx.body}
+      </MDXRenderer>
+    </Layout>
+  )
 }
 
 export const query = graphql`{

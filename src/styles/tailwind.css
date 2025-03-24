@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply font-sans text-base leading-relaxed font-light text-gray-900 bg-[#fdfdfd];
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply font-light mb-4;
+    }
+
+    a {
+        @apply text-link-blue no-underline;
+    }
+
+    a:visited {
+        @apply text-visited-link;
+    }
+
+    a:hover {
+        @apply text-gray-900 underline;
+    }
+
+    blockquote {
+        @apply text-text-gray border-l-4 border-border-gray pl-4 text-lg italic -tracking-tight;
+    }
+
+    pre,
+    code {
+        @apply text-sm border border-border-gray rounded bg-code-bg;
+    }
+
+    code {
+        @apply px-1 py-px;
+    }
+
+    pre {
+        @apply p-3 overflow-x-auto;
+    }
+
+    pre>code {
+        @apply border-0 p-0;
+    }
+}
+
+@layer components {
+    .site-wrapper {
+        @apply max-w-[800px] mx-auto px-8;
+    }
+
+    .site-header {
+        @apply border-t-2 border-border-gray border-b border-border-gray min-h-[56px] relative;
+    }
+
+    .site-title {
+        @apply text-[26px] leading-[56px] -tracking-tight mb-0 float-left text-[#424242];
+    }
+
+    .site-nav {
+        @apply float-left leading-[56px];
+    }
+
+    .site-body {
+        @apply py-6;
+    }
+
+    .site-footer {
+        @apply border-t border-border-gray py-8;
+    }
+
+    .footer-heading {
+        @apply text-lg mb-4;
+    }
+
+    .footer-col-wrapper {
+        @apply text-sm text-text-gray -ml-4 after:content-[''] after:table after:clear-both;
+    }
+
+    .footer-col {
+        @apply float-left mb-4 pl-4;
+    }
+
+    .post-list {
+        @apply ml-0 list-none;
+    }
+
+    .post-list>li {
+        @apply mb-8;
+    }
+
+    .post-meta {
+        @apply text-sm text-text-gray;
+    }
+
+    .post-link {
+        @apply block text-2xl;
+    }
+
+    .post-title {
+        @apply text-post-title -tracking-tight leading-none;
+    }
+
+    .post-header {
+        @apply mb-8;
+    }
+
+    .post-content {
+        @apply mb-8;
+    }
+
+    .pf-photo {
+        @apply w-[100px] h-[100px] p-1 my-1 border border-solid border-border-gray bg-code-bg rounded-full;
+    }
+
+    /* 摄影作品集组件 */
+    .photo-grid {
+        @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+    }
+
+    .photo-card {
+        @apply relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300;
+    }
+
+    .photo-image {
+        @apply w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105;
+    }
+
+    .photo-info {
+        @apply absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300;
+    }
+
+    .photo-title {
+        @apply text-white text-lg font-medium;
+    }
+
+    .photo-meta {
+        @apply text-gray-200 text-sm;
+    }
+
+    .category-filter {
+        @apply flex flex-wrap justify-center gap-2 mb-6;
+    }
+
+    .category-button {
+        @apply px-3 py-1 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors;
+    }
+
+    .category-button-active {
+        @apply bg-link-blue text-white;
+    }
+}
+
+@layer utilities {
+
+    /* 自定义工具类 */
+    @media screen and (max-width: 800px) {
+        .post-title {
+            @apply text-[36px];
+        }
+
+        .site-wrapper {
+            @apply px-4;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .footer-col {
+            @apply float-none w-full;
+        }
+
+        .site-nav {
+            @apply absolute top-[9px] right-[30px] bg-[#fdfdfd] border border-border-gray rounded text-left;
+        }
+    }
+}

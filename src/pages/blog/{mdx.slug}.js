@@ -11,22 +11,34 @@ const BlogPost = ({ data }) => {
 
   return (
     <Layout pageTitle={data.mdx.frontmatter.title}>
-      <header class="post-header">
-        <p class="post-meta">{data.mdx.frontmatter.date} • <a href="https://github.com/atschx">{data.mdx.frontmatter.author}</a> | 阅读本文需要 {data.mdx.timeToRead} 分钟</p>
+      <header className="mb-8">
+        <p className="text-sm text-text-gray">
+          {data.mdx.frontmatter.date} •
+          <a href="https://github.com/atschx" className="text-link-blue hover:text-gray-900 hover:underline ml-1">
+            {data.mdx.frontmatter.author}
+          </a>
+          <span className="mx-2">|</span>
+          阅读本文需要 {data.mdx.timeToRead} 分钟
+        </p>
       </header>
-      <GatsbyImage
-        image={image}
-        alt={data.mdx.frontmatter.hero_image_alt}
-      />
-      <p>
+      <div className="mb-4 rounded-lg overflow-hidden shadow-lg">
+        <GatsbyImage
+          image={image}
+          alt={data.mdx.frontmatter.hero_image_alt}
+          className="w-full"
+        />
+      </div>
+      <p className="text-sm text-text-gray mb-6">
         Photo Credit:{" "}
-        <a href={data.mdx.frontmatter.hero_image_credit_link}>
+        <a href={data.mdx.frontmatter.hero_image_credit_link} className="text-link-blue hover:text-gray-900 hover:underline">
           {data.mdx.frontmatter.hero_image_credit_text}
         </a>
       </p>
-      <MDXRenderer>
-        {data.mdx.body}
-      </MDXRenderer>
+      <div className="prose max-w-none mb-8">
+        <MDXRenderer>
+          {data.mdx.body}
+        </MDXRenderer>
+      </div>
     </Layout>
   )
 }
@@ -36,7 +48,7 @@ export const query = graphql`query MyQuery($id: String) {
     frontmatter {
       title
       author
-      date(formatString: "MMMM D, YYYY")
+      date(formatString: "YYYY年MM月DD日")
       hero_image_alt
       hero_image_credit_link
       hero_image_credit_text
