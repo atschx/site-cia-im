@@ -3,10 +3,15 @@ node_modules/
 .DS_store
 public
 
-# 忽略static目录中的摄影图片，但保留目录结构
+# 忽略static目录中的摄影图片，但保留目录结构和示例照片
 static/images/photographs/*
 !static/images/photographs/.gitkeep
 !static/images/photographs/README.md
+# 保留示例照片
+!static/images/photographs/DSC_3681.jpg
+!static/images/photographs/DSC_4927.jpg
+!static/images/photographs/DSC_4964.jpg
+!static/images/photographs/SUN_5872.jpg
 
 # 环境配置文件
 .env
