@@ -9,4 +9,7 @@ export { useLightbox } from '../components/photo-lightbox';
 export { default as usePagination } from './pagination/usePagination';
 
 // 筛选相关hooks
-export { default as usePhotoFilter } from './filter/usePhotoFilter'; 
+export { default as usePhotoFilter } from './filter/usePhotoFilter';
+
+// 主题相关hooks
+export { default as useTheme } from './useTheme'; 

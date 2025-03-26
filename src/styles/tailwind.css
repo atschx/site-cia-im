@@ -3,8 +3,20 @@
 @tailwind utilities;
 
 @layer base {
+    html {
+        @apply bg-[#fdfdfd] transition-colors duration-300;
+    }
+
+    .dark html {
+        @apply bg-dark-bg;
+    }
+
     body {
-        @apply font-sans text-base leading-relaxed font-light text-gray-900 bg-[#fdfdfd];
+        @apply font-sans text-base leading-relaxed font-light text-gray-900 transition-colors duration-300;
+    }
+
+    .dark body {
+        @apply bg-dark-bg text-dark-text;
     }
 
     h1,
@@ -20,21 +32,42 @@
         @apply text-link-blue no-underline;
     }
 
+    .dark a {
+        @apply text-dark-link;
+    }
+
     a:visited {
         @apply text-visited-link;
+    }
+
+    .dark a:visited {
+        @apply text-dark-visited-link;
     }
 
     a:hover {
         @apply text-gray-900 underline;
     }
 
+    .dark a:hover {
+        @apply text-white underline;
+    }
+
     blockquote {
         @apply text-text-gray border-l-4 border-border-gray pl-4 text-lg italic -tracking-tight;
+    }
+
+    .dark blockquote {
+        @apply text-gray-400 border-dark-border;
     }
 
     pre,
     code {
         @apply text-sm border border-border-gray rounded bg-code-bg;
+    }
+
+    .dark pre,
+    .dark code {
+        @apply border-dark-border bg-dark-code-bg;
     }
 
     code {
@@ -59,8 +92,16 @@
         @apply border-t-2 border-border-gray border-b border-border-gray min-h-[56px] relative;
     }
 
+    .dark .site-header {
+        @apply border-dark-border;
+    }
+
     .site-title {
         @apply text-[26px] leading-[56px] -tracking-tight mb-0 float-left text-[#424242];
+    }
+
+    .dark .site-title {
+        @apply text-dark-text;
     }
 
     .site-nav {
@@ -75,12 +116,20 @@
         @apply border-t border-border-gray py-8;
     }
 
+    .dark .site-footer {
+        @apply border-dark-border;
+    }
+
     .footer-heading {
         @apply text-lg mb-4;
     }
 
     .footer-col-wrapper {
         @apply text-sm text-text-gray -ml-4 after:content-[''] after:table after:clear-both;
+    }
+
+    .dark .footer-col-wrapper {
+        @apply text-gray-400;
     }
 
     .footer-col {
@@ -97,6 +146,10 @@
 
     .post-meta {
         @apply text-sm text-text-gray;
+    }
+
+    .dark .post-meta {
+        @apply text-gray-400;
     }
 
     .post-link {
@@ -117,6 +170,10 @@
 
     .pf-photo {
         @apply w-[100px] h-[100px] p-1 my-1 border border-solid border-border-gray bg-code-bg rounded-full;
+    }
+
+    .dark .pf-photo {
+        @apply border-dark-border bg-dark-code-bg;
     }
 
     /* 摄影作品集组件 */
@@ -152,8 +209,25 @@
         @apply px-3 py-1 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors;
     }
 
+    .dark .category-button {
+        @apply bg-gray-700 hover:bg-gray-600 text-gray-200;
+    }
+
     .category-button-active {
         @apply bg-link-blue text-white;
+    }
+
+    .dark .category-button-active {
+        @apply bg-dark-link;
+    }
+
+    /* 主题切换按钮 */
+    .theme-toggle {
+        @apply flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors;
+    }
+
+    .dark .theme-toggle {
+        @apply bg-gray-700 hover:bg-gray-600;
     }
 }
 
@@ -177,6 +251,10 @@
 
         .site-nav {
             @apply absolute top-[9px] right-[30px] bg-[#fdfdfd] border border-border-gray rounded text-left;
+        }
+
+        .dark .site-nav {
+            @apply bg-dark-bg border-dark-border;
         }
     }
 }
