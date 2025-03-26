@@ -19,7 +19,7 @@ const LoadMore = ({
     loadingText = "加载中...",
     loadMoreText = "加载更多",
     className = "mt-8 text-center",
-    buttonClassName = "px-4 py-2 bg-link-blue text-white rounded hover:bg-link-blue/80 transition-colors disabled:opacity-50"
+    buttonClassName = "px-4 py-2 bg-link-blue text-white rounded hover:bg-link-blue/80 transition-colors disabled:opacity-50 dark:bg-dark-link dark:hover:bg-dark-link/80"
 }) => {
     if (!hasMore) return null;
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useLightboxState from './hooks/useLightboxState';
 import PhotoContainer from './components/PhotoContainer';
 import LightboxControls from './components/LightboxControls';
@@ -35,6 +35,22 @@ const PhotoLightbox = (props) => {
         handlers,
         navigation
     } = useLightboxState(props);
+
+    // 添加全局键盘事件监听，用于处理ESC键关闭灯箱
+    useEffect(() => {
+        if (isOpen) {
+            const handleKeyDown = (e) => {
+                if (e.key === 'Escape') {
+                    onClose();
+                }
+            };
+            
+            window.addEventListener('keydown', handleKeyDown);
+            return () => {
+                window.removeEventListener('keydown', handleKeyDown);
+            };
+        }
+    }, [isOpen, onClose]);
 
     // 如果灯箱未打开或没有照片数据，则不渲染
     if (!isOpen || !photo) {

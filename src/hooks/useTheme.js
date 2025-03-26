@@ -8,6 +8,17 @@ const useTheme = () => {
     // 如果支持window，则初始化为浏览器偏好，否则默认为'light'
     const [theme, setTheme] = useState('light');
 
+    // 应用主题到DOM
+    const applyTheme = (themeName) => {
+        if (typeof document === 'undefined') return;
+        
+        if (themeName === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    };
+
     useEffect(() => {
         // 组件挂载时，检查localStorage中是否有保存的主题
         const savedTheme = typeof window !== 'undefined' ? localStorage.getItem('theme') : null;
@@ -15,16 +26,12 @@ const useTheme = () => {
         // 如果有保存的主题，使用保存的主题
         if (savedTheme) {
             setTheme(savedTheme);
-            if (savedTheme === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
+            applyTheme(savedTheme);
         }
         // 如果没有保存的主题，检查系统偏好
         else if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             setTheme('dark');
-            document.documentElement.classList.add('dark');
+            applyTheme('dark');
         }
     }, []);
 
@@ -38,12 +45,8 @@ const useTheme = () => {
             localStorage.setItem('theme', newTheme);
         }
 
-        // 更新html标签的class
-        if (newTheme === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
+        // 应用主题
+        applyTheme(newTheme);
     };
 
     return { theme, toggleTheme };

@@ -2,21 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 全局暗黑模式样式 */
+.dark {
+    color-scheme: dark;
+}
+
+body, html {
+    @apply min-h-screen;
+}
+
+.dark body {
+    @apply bg-dark-bg text-dark-text min-h-screen;
+}
+
 @layer base {
+    #___gatsby, #gatsby-focus-wrapper {
+        @apply min-h-screen;
+    }
+
     html {
-        @apply bg-[#fdfdfd] transition-colors duration-300;
+        @apply bg-[#fdfdfd] transition-colors duration-300 min-h-screen;
     }
 
     .dark html {
-        @apply bg-dark-bg;
+        @apply bg-dark-bg min-h-screen;
     }
 
     body {
-        @apply font-sans text-base leading-relaxed font-light text-gray-900 transition-colors duration-300;
+        @apply font-sans text-base leading-relaxed font-light text-gray-900 transition-colors duration-300 min-h-screen;
     }
 
     .dark body {
-        @apply bg-dark-bg text-dark-text;
+        @apply bg-dark-bg text-dark-text min-h-screen;
     }
 
     h1,
@@ -26,6 +43,15 @@
     h5,
     h6 {
         @apply font-light mb-4;
+    }
+
+    .dark h1,
+    .dark h2,
+    .dark h3,
+    .dark h4,
+    .dark h5,
+    .dark h6 {
+        @apply text-dark-text;
     }
 
     a {
@@ -53,11 +79,11 @@
     }
 
     blockquote {
-        @apply text-text-gray border-l-4 border-border-gray pl-4 text-lg italic -tracking-tight;
+        @apply text-text-gray border-l-4 border-border-gray pl-4 text-lg italic -tracking-tight bg-gray-50 p-4 rounded-r;
     }
 
     .dark blockquote {
-        @apply text-gray-400 border-dark-border;
+        @apply text-gray-300 border-dark-link bg-gray-900 border-l-4 p-4 rounded-r;
     }
 
     pre,
@@ -81,11 +107,41 @@
     pre>code {
         @apply border-0 p-0;
     }
+
+    /* 确保prose中的blockquote也有正确的样式 */
+    .prose blockquote {
+        @apply text-text-gray border-l-4 border-border-gray pl-4 text-lg italic -tracking-tight bg-gray-50 p-4 rounded-r !important;
+    }
+    
+    .dark .prose blockquote {
+        @apply text-gray-300 border-dark-link bg-gray-900 border-l-4 p-4 rounded-r !important;
+    }
+    
+    .prose blockquote p::before,
+    .prose blockquote p::after {
+        @apply content-none;
+    }
+    
+    .dark .prose blockquote p {
+        @apply text-gray-300 !important;
+    }
+    
+    .dark .prose blockquote * {
+        @apply text-gray-300 !important;
+    }
+    
+    .dark blockquote * {
+        @apply text-gray-300;
+    }
 }
 
 @layer components {
     .site-wrapper {
         @apply max-w-[800px] mx-auto px-8;
+    }
+
+    .dark .site-wrapper {
+        @apply bg-dark-bg;
     }
 
     .site-header {
@@ -168,6 +224,10 @@
         @apply mb-8;
     }
 
+    .dark .post-content {
+        @apply bg-dark-bg text-dark-text;
+    }
+
     .pf-photo {
         @apply w-[100px] h-[100px] p-1 my-1 border border-solid border-border-gray bg-code-bg rounded-full;
     }
@@ -182,7 +242,11 @@
     }
 
     .photo-card {
-        @apply relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300;
+        @apply relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 bg-white;
+    }
+
+    .dark .photo-card {
+        @apply shadow-gray-900 bg-gray-800;
     }
 
     .photo-image {
@@ -193,6 +257,10 @@
         @apply absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300;
     }
 
+    .dark .photo-info {
+        @apply from-black/90;
+    }
+
     .photo-title {
         @apply text-white text-lg font-medium;
     }
@@ -201,33 +269,45 @@
         @apply text-gray-200 text-sm;
     }
 
+    .dark .photo-meta {
+        @apply text-gray-100;
+    }
+
     .category-filter {
-        @apply flex flex-wrap justify-center gap-2 mb-6;
+        @apply flex flex-wrap justify-center gap-3 mb-8;
     }
 
     .category-button {
-        @apply px-3 py-1 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors;
+        @apply px-5 py-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors text-gray-800 shadow-sm font-medium;
     }
 
     .dark .category-button {
-        @apply bg-gray-700 hover:bg-gray-600 text-gray-200;
+        @apply bg-dark-category-bg hover:bg-gray-700 text-white border border-gray-600 shadow-lg;
     }
 
     .category-button-active {
-        @apply bg-link-blue text-white;
+        @apply bg-link-blue text-white font-medium shadow-md;
     }
 
     .dark .category-button-active {
-        @apply bg-dark-link;
+        @apply bg-dark-category-active text-white font-bold border-blue-400 shadow-lg;
     }
 
     /* 主题切换按钮 */
     .theme-toggle {
-        @apply flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors;
+        @apply flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors shadow-sm;
     }
 
     .dark .theme-toggle {
-        @apply bg-gray-700 hover:bg-gray-600;
+        @apply bg-gray-700 hover:bg-gray-600 border border-gray-600 shadow-md;
+    }
+
+    .prose {
+        @apply max-w-none;
+    }
+    
+    .dark .prose {
+        @apply bg-dark-bg text-dark-text;
     }
 }
 
@@ -254,7 +334,16 @@
         }
 
         .dark .site-nav {
-            @apply bg-dark-bg border-dark-border;
+            @apply bg-dark-bg border-dark-border text-dark-text;
         }
+    }
+    
+    /* 确保暗色模式背景覆盖整个页面 */
+    .dark #gatsby-focus-wrapper {
+        @apply bg-dark-bg min-h-screen;
+    }
+    
+    .dark #___gatsby {
+        @apply bg-dark-bg min-h-screen;
     }
 }

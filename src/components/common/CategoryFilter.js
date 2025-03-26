@@ -16,9 +16,9 @@ const CategoryFilter = ({
     categories,
     activeCategory,
     onChange,
-    className = "flex flex-wrap justify-center gap-2 mb-6",
-    buttonClassName = "px-3 py-1 rounded-full transition-colors bg-gray-200 hover:bg-gray-300",
-    activeButtonClassName = "bg-link-blue text-white"
+    className = "category-filter",
+    buttonClassName = "category-button",
+    activeButtonClassName = "category-button-active"
 }) => {
     return (
         <div className={className}>

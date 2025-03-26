@@ -24,6 +24,7 @@ const PhotoInfo = ({ photo, viewState }) => {
                         <span>{photo.aperture}</span>
                     )}
                 </p>
+                <p className="text-xs text-gray-500 mt-2">按ESC键退出灯箱</p>
             </figcaption>
 
             {/* 缩放比例指示器 */}

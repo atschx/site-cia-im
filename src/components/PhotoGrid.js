@@ -25,7 +25,7 @@ const PhotoGrid = ({
     };
 
     if (!photos || photos.length === 0) {
-        return <p className="text-center text-gray-500 py-8">暂无照片</p>;
+        return <p className="text-center text-gray-500 dark:text-gray-400 py-8">暂无照片</p>;
     }
 
     // 获取图片源URL
@@ -40,20 +40,20 @@ const PhotoGrid = ({
             {photos.map((photo) => (
                 <div
                     key={photo.id}
-                    className="relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                    className="relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer dark:shadow-gray-900"
                     onClick={() => onPhotoClick && onPhotoClick(photo)}
                     onKeyDown={(e) => handleKeyDown(photo, e)}
                     role="button"
                     tabIndex={0}
                     aria-label={`查看照片: ${photo.title}`}
                 >
-                    <div className="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div className="w-full aspect-[4/3] overflow-hidden">
                         {photo.gatsbyImageData ? (
                             // 对于Gatsby GraphQL查询的图片数据
                             <GatsbyImage
                                 image={getImage(photo.gatsbyImageData)}
                                 alt={photo.title || "照片"}
-                                className="w-full h-full"
+                                className="w-full h-full object-cover"
                             />
                         ) : (
                             // 使用带备用功能的图片组件
@@ -67,11 +67,11 @@ const PhotoGrid = ({
                     </div>
 
                     {/* 照片信息覆盖层 */}
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex flex-col justify-end p-4">
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 dark:group-hover:bg-opacity-80 transition-all duration-300 flex flex-col justify-end p-4 rounded-lg">
                         <h3 className="text-white font-medium text-lg transform translate-y-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
                             {photo.title}
                         </h3>
-                        <p className="text-gray-200 text-sm transform translate-y-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-75">
+                        <p className="text-gray-100 text-sm transform translate-y-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-75">
                             {photo.location}{photo.location && photo.date ? ' · ' : ''}{photo.date}
                         </p>
                     </div>

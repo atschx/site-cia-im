@@ -343,6 +343,8 @@ function useLightboxState({ photo, isOpen, onClose, onNext, onPrev }) {
             withStopPropagation(handleZoomOut)(e);
         } else if (e.key === '0') {
             withStopPropagation(handleResetZoom)(e);
+        } else if (e.key === 'Escape') {
+            withStopPropagation(onClose)(e);
         }
     };
 

@@ -30,8 +30,8 @@ const PhotographyPage = () => {
     }
 
     return (
-        <Layout pageTitle="摄影作品">
-            <div className="w-full py-8">
+        <Layout pageTitle="摄影作品" noProse={true}>
+            <div className="w-full min-h-full">
                 <header className="mb-8">
                     <h1 className="text-3xl font-light text-center mb-6">我的摄影作品</h1>
 
@@ -44,16 +44,20 @@ const PhotographyPage = () => {
                 </header>
 
                 {/* 照片网格 */}
-                <PhotoGrid
-                    photos={displayedPhotos}
-                    onPhotoClick={handlePhotoClick}
-                />
+                <div className="mb-12">
+                    <PhotoGrid
+                        photos={displayedPhotos}
+                        onPhotoClick={handlePhotoClick}
+                    />
+                </div>
 
                 {/* 加载更多按钮 */}
-                <LoadMore
-                    hasMore={hasMore}
-                    onClick={loadMore}
-                />
+                <div className="mb-8">
+                    <LoadMore
+                        hasMore={hasMore}
+                        onClick={loadMore}
+                    />
+                </div>
 
                 {/* 灯箱组件 */}
                 {isOpen && currentPhoto && (

@@ -20,7 +20,7 @@ const IndexPage = () => {
         <div className="flex-1">
           <h1 className="text-3xl md:text-4xl font-light mb-6">Write now,think more(different).</h1>
 
-          <div className="mb-8 p-6 bg-blue-50 border-l-4 border-link-blue rounded-r-md">
+          <blockquote className="mb-8 italic">
             <p className="mb-2 text-sm">对于值得的事，永远不会太晚，或者在我的情况下，太早，成为你想成为的人。</p>
             <p className="mb-2 text-sm">没有时间限制，随时停止。</p>
             <p className="mb-2 text-sm">你可以改变或保持不变。</p>
@@ -30,7 +30,7 @@ const IndexPage = () => {
             <p className="mb-2 text-sm">我希望你看到让你惊讶的事物。</p>
             <p className="mb-2 text-sm">我希望你感受到你从未感受过的事物。</p>
             <p className="text-sm">我希望你遇到有不同观点的人。</p>
-          </div>
+          </blockquote>
 
           <p className="text-base">使用 <Link to="https://www.gatsbyjs.com/docs/tutorial/" className="text-link-blue hover:text-gray-900 hover:underline">Gatsby</Link> 构建，由 <Link to="https://www.gatsbyjs.com/products/cloud/" className="text-link-blue hover:text-gray-900 hover:underline">Gatsby Cloud</Link> 托管。</p>
         </div>
