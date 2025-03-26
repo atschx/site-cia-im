@@ -18,6 +18,8 @@ const PhotoLightbox = ({ photo, isOpen, onClose, onNext, onPrev }) => {
     const [startDrag, setStartDrag] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
     const [wasDragged, setWasDragged] = useState(false);
+    const [imageLoaded, setImageLoaded] = useState(false);
+    const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
 
     // 重置状态
     const resetState = useCallback(() => {
@@ -25,19 +27,35 @@ const PhotoLightbox = ({ photo, isOpen, onClose, onNext, onPrev }) => {
         setPosition({ x: 0, y: 0 });
         setStartDrag(null);
         setIsDragging(false);
+        setImageLoaded(false);
+        setImageSize({ width: 0, height: 0 });
+    }, []);
+
+    // 处理图片加载完成
+    const handleImageLoad = useCallback((e) => {
+        const { naturalWidth, naturalHeight } = e.target;
+        setImageSize({ width: naturalWidth, height: naturalHeight });
+        setImageLoaded(true);
     }, []);
 
     // 处理放大
     const handleZoomIn = useCallback((e) => {
         if (e) e.stopPropagation();
-        setZoomLevel(prev => Math.min(prev + 0.25, 3));
-    }, []);
+        setZoomLevel(prev => {
+            // 允许放大到更高倍率，根据图片尺寸动态调整
+            const maxZoom = imageLoaded ? Math.max(5, Math.ceil(Math.max(
+                imageSize.width / window.innerWidth,
+                imageSize.height / window.innerHeight
+            ) * 1.5)) : 5;
+            return Math.min(prev + 0.5, maxZoom);
+        });
+    }, [imageLoaded, imageSize]);
 
     // 处理缩小
     const handleZoomOut = useCallback((e) => {
         if (e) e.stopPropagation();
         setZoomLevel(prev => {
-            const newZoom = Math.max(prev - 0.25, 0.5);
+            const newZoom = Math.max(prev - 0.5, 0.5);
             // 如果缩小到1或以下，重置位置
             if (newZoom <= 1) {
                 setPosition({ x: 0, y: 0 });
@@ -65,16 +83,49 @@ const PhotoLightbox = ({ photo, isOpen, onClose, onNext, onPrev }) => {
         // 如果正在拖动，不处理点击
         if (isDragging) return;
 
+        const rect = e.currentTarget.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const clickY = e.clientY - rect.top;
+
+        // 多级缩放逻辑
         if (zoomLevel === 1) {
-            const rect = e.currentTarget.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            const clickY = e.clientY - rect.top;
+            // 首次点击放大到2倍
             setZoomLevel(2);
             setPosition({ x: rect.width / 2 - clickX, y: rect.height / 2 - clickY });
+        } else if (zoomLevel >= 2 && zoomLevel < 4) {
+            // 第二次点击放大到4倍，定位到点击位置
+            setZoomLevel(4);
+            setPosition({
+                x: 2 * (rect.width / 2 - clickX),
+                y: 2 * (rect.height / 2 - clickY)
+            });
+        } else if (imageLoaded && zoomLevel >= 4) {
+            // 再次点击计算原始分辨率缩放比例
+            const viewportRatio = Math.min(
+                window.innerWidth / imageSize.width,
+                window.innerHeight / imageSize.height
+            );
+
+            // 计算100%原始分辨率对应的缩放比例
+            const nativeZoom = 1 / viewportRatio;
+
+            // 如果已经很接近原始分辨率，则重置到1倍
+            if (zoomLevel > nativeZoom * 0.8) {
+                handleResetZoom();
+            } else {
+                // 否则放大到原始分辨率
+                setZoomLevel(nativeZoom);
+                // 更精确地定位到点击位置
+                setPosition({
+                    x: nativeZoom * (rect.width / 2 - clickX) / 2,
+                    y: nativeZoom * (rect.height / 2 - clickY) / 2
+                });
+            }
         } else {
+            // 其他情况重置缩放
             handleResetZoom();
         }
-    }, [zoomLevel, wasDragged, isDragging, handleResetZoom]);
+    }, [zoomLevel, wasDragged, isDragging, handleResetZoom, imageLoaded, imageSize]);
 
     // 处理鼠标按下 - 开始拖动
     const handleMouseDown = useCallback((e) => {
@@ -194,6 +245,9 @@ const PhotoLightbox = ({ photo, isOpen, onClose, onNext, onPrev }) => {
         return 'zoom-in';
     };
 
+    // 确定是否为竖构图（高度大于宽度）
+    const isPortrait = imageLoaded && imageSize.height > imageSize.width;
+
     return (
         <div
             className="fixed inset-0 z-50 bg-black bg-opacity-95 flex items-center justify-center"
@@ -203,7 +257,7 @@ const PhotoLightbox = ({ photo, isOpen, onClose, onNext, onPrev }) => {
             aria-label="照片灯箱"
         >
             <div
-                className="relative max-w-7xl mx-auto p-4 w-full h-full flex flex-col justify-center"
+                className="relative mx-auto p-4 w-full h-full flex flex-col justify-center"
                 onClick={(e) => e.stopPropagation()}
                 onKeyDown={(e) => e.stopPropagation()}
                 role="presentation"
@@ -245,6 +299,11 @@ const PhotoLightbox = ({ photo, isOpen, onClose, onNext, onPrev }) => {
                 {/* 缩放比例指示器 */}
                 <div className="absolute bottom-5 left-5 z-10 text-white text-sm bg-black bg-opacity-50 px-2 py-1 rounded">
                     {Math.round(zoomLevel * 100)}%
+                    {imageLoaded && imageSize.width > 0 && (
+                        <span className="ml-2 text-xs text-gray-300">
+                            {imageSize.width} × {imageSize.height}
+                        </span>
+                    )}
                 </div>
 
                 {/* 导航按钮 */}
@@ -270,13 +329,14 @@ const PhotoLightbox = ({ photo, isOpen, onClose, onNext, onPrev }) => {
                     <span aria-hidden="true">&#10095;</span>
                 </button>
 
-                {/* 图片容器 */}
+                {/* 图片容器 - 根据图片方向调整容器尺寸 */}
                 <div
-                    className="w-full h-4/5 flex items-center justify-center overflow-hidden"
+                    className={`flex items-center justify-center overflow-hidden ${isPortrait ? 'h-[70vh] w-auto' : 'w-full h-[70vh]'
+                        }`}
                     onWheel={handleWheel}
                 >
                     <div
-                        className="relative transition-transform duration-150 cursor-pointer"
+                        className="relative transition-transform duration-150 cursor-pointer h-full"
                         style={{
                             transform: `translate(${position.x}px, ${position.y}px) scale(${zoomLevel})`,
                             cursor: getCursorStyle()
@@ -296,21 +356,23 @@ const PhotoLightbox = ({ photo, isOpen, onClose, onNext, onPrev }) => {
                             <GatsbyImage
                                 image={getImage(photo.gatsbyImageData)}
                                 alt={photo.title || "照片"}
-                                className="max-h-full max-w-full object-contain"
+                                className="h-full w-auto object-contain"
                             />
                         ) : photo.originalSrc ? (
                             <img
                                 src={photo.originalSrc}
                                 alt={photo.title || "照片"}
-                                className="max-h-full max-w-full object-contain"
+                                className="h-full w-auto object-contain"
                                 draggable="false"
+                                onLoad={handleImageLoad}
                             />
                         ) : photo.src ? (
                             <img
                                 src={photo.src}
                                 alt={photo.title || "照片"}
-                                className="max-h-full max-w-full object-contain"
+                                className="h-full w-auto object-contain"
                                 draggable="false"
+                                onLoad={handleImageLoad}
                             />
                         ) : (
                             <div className="text-white">无法加载图片</div>
@@ -340,7 +402,9 @@ const PhotoLightbox = ({ photo, isOpen, onClose, onNext, onPrev }) => {
 
                 {/* 操作提示 */}
                 <div className="absolute bottom-5 right-5 z-10 text-white text-sm bg-black bg-opacity-50 px-2 py-1 rounded">
-                    {zoomLevel > 1 ? "点击重置缩放" : "点击放大照片"}
+                    {zoomLevel > 1 ?
+                        (zoomLevel >= 4 ? "点击查看原始分辨率/重置" : "点击进一步放大") :
+                        "点击放大照片"}
                 </div>
             </div>
         </div>
