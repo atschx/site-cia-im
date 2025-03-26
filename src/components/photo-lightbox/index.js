@@ -334,6 +334,19 @@ const PhotoLightbox = ({ photo, isOpen, onClose, onNext, onPrev }) => {
                     className={`flex items-center justify-center overflow-hidden ${isPortrait ? 'h-[70vh] w-auto' : 'w-full h-[70vh]'
                         }`}
                     onWheel={handleWheel}
+                    tabIndex={0}
+                    role="application"
+                    aria-label="图片查看区域"
+                    onKeyDown={(e) => {
+                        // 添加键盘快捷键
+                        if (e.key === '+' || e.key === '=') {
+                            handleZoomIn(e);
+                        } else if (e.key === '-' || e.key === '_') {
+                            handleZoomOut(e);
+                        } else if (e.key === '0') {
+                            handleResetZoom(e);
+                        }
+                    }}
                 >
                     <div
                         className="relative transition-transform duration-150 cursor-pointer h-full"
