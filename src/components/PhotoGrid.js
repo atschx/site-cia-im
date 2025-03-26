@@ -14,7 +14,7 @@ import ImageWithFallback from './common/ImageWithFallback'
 const PhotoGrid = ({
     photos,
     onPhotoClick,
-    fallbackImagePath = "/images/placeholder.jpg"
+    fallbackImagePath = "/images/fallback-image.svg"
 }) => {
     // 处理键盘事件以支持可访问性
     const handleKeyDown = (photo, e) => {
@@ -65,11 +65,14 @@ const PhotoGrid = ({
                             />
                         )}
                     </div>
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                        <h3 className="text-white text-lg font-medium">{photo.title}</h3>
-                        <p className="text-gray-200 text-sm">
-                            {photo.location && photo.date ? `${photo.location} · ${photo.date}` :
-                                photo.location || photo.date || ''}
+
+                    {/* 照片信息覆盖层 */}
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex flex-col justify-end p-4">
+                        <h3 className="text-white font-medium text-lg transform translate-y-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                            {photo.title}
+                        </h3>
+                        <p className="text-gray-200 text-sm transform translate-y-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-75">
+                            {photo.location}{photo.location && photo.date ? ' · ' : ''}{photo.date}
                         </p>
                     </div>
                 </div>

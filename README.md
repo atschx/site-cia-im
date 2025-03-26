@@ -146,3 +146,40 @@ A: 尝试以下方法:
 ## 📄 许可证
 
 MIT
+
+## 图片资源说明
+
+本项目的图片资源存放在 `static/images/photographs` 目录下，但这些图片文件**未包含在Git仓库**中。
+
+### 新开发者需要做什么
+
+1. 获取图片资源包（联系项目维护者）
+2. 将图片放入 `static/images/photographs` 目录
+3. 或者使用以下任一方法：
+
+#### 方法一：使用少量示例图片
+
+1. 在 `static/images/photographs` 放置几张示例图片
+2. 这些图片会通过 `ImageWithFallback` 组件显示
+
+#### 方法二：使用远程CDN
+
+1. 复制 `.env.example` 为 `.env.development`
+2. 设置 `IMAGE_CDN_URL` 为您的CDN地址
+3. 设置 `USE_LOCAL_IMAGES=false`
+
+#### 方法三：使用回退图片
+
+如果您暂时无法获取完整图片资源，代码中已经实现了回退机制。系统会自动显示占位图片，保证页面正常渲染。
+
+### Gatsby目录结构说明
+
+本项目遵循Gatsby的标准目录结构：
+
+- `static/` - 存放不需要经过处理的静态资源
+  - `static/images/` - 存放图片资源
+    - `static/images/photographs/` - 存放摄影作品图片
+  - 这些文件会被直接复制到构建输出的`public`目录中
+
+- `src/` - 源代码目录
+  - `src/images/` - 需要经过Gatsby图像处理系统处理的图片

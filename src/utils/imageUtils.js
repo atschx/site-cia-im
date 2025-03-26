@@ -55,4 +55,50 @@ export function isValidImageUrl(url) {
         url.startsWith('/') ||
         url.startsWith('data:image/')
     );
+}
+
+/**
+ * 获取图片回退URL
+ * 当原始图片不存在时，提供默认图片
+ * 
+ * @param {string} category - 图片类别，用于提供特定类别的默认图片
+ * @returns {string} 回退图片URL
+ */
+export function getFallbackImageUrl(category = 'default') {
+    // 默认回退图片
+    const defaultFallback = '/images/fallback-image.svg';
+
+    // 特定类别回退图片
+    const categoryFallbacks = {
+        landscape: '/images/fallback-landscape.jpg',
+        portrait: '/images/fallback-portrait.jpg',
+        architecture: '/images/fallback-architecture.jpg',
+        people: '/images/fallback-people.jpg',
+        // 可以根据需要添加更多类别
+    };
+
+    return categoryFallbacks[category] || defaultFallback;
+}
+
+/**
+ * 检查图片是否存在
+ * 
+ * @param {string} url - 图片URL
+ * @returns {Promise<boolean>} 图片是否存在
+ */
+export async function checkImageExists(url) {
+    // 对于外部URL，进行网络请求检查
+    if (url.startsWith('http')) {
+        try {
+            const response = await fetch(url, { method: 'HEAD' });
+            return response.ok;
+        } catch (error) {
+            console.error(`Error checking image existence: ${error}`);
+            return false;
+        }
+    }
+
+    // 对于本地图片，无法在客户端直接检查文件系统
+    // 返回true，依赖于ImageWithFallback组件的onError处理
+    return true;
 } 

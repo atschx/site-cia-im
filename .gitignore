@@ -2,3 +2,14 @@ node_modules/
 .cache/
 .DS_store
 public
+
+# 忽略static目录中的摄影图片，但保留目录结构
+static/images/photographs/*
+!static/images/photographs/.gitkeep
+!static/images/photographs/README.md
+
+# 环境配置文件
+.env
+.env.development
+.env.production
+!.env.example
