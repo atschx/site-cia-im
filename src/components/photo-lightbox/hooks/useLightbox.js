@@ -54,8 +54,4 @@ export function useLightbox(photos) {
     };
 }
 
-// 注意：此文件将在未来版本中被弃用
-// 请直接从 'components/photo-lightbox' 导入 useLightbox
-// 例如: import { useLightbox } from '../components/photo-lightbox'
-
 export default useLightbox; 
