@@ -34,7 +34,7 @@ const BlogPost = ({ data }) => {
           {data.mdx.frontmatter.hero_image_credit_text}
         </a>
       </p>
-      <div className="prose max-w-none mb-8">
+      <div className="prose max-w-none mb-8 pl-6">
         <MDXRenderer>
           {data.mdx.body}
         </MDXRenderer>

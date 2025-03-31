@@ -50,6 +50,16 @@ module.exports = {
               padding: '1rem',
               fontStyle: 'italic',
             },
+            hr: {
+              borderColor: theme('colors.border-gray'),
+              marginTop: '2rem',
+              marginBottom: '2rem',
+              borderWidth: '1px',
+              opacity: 0.8,
+              background: 'linear-gradient(to right, transparent, ' + theme('colors.border-gray') + ', transparent)',
+              height: '1px',
+              border: 'none',
+            },
           },
         },
         invert: {
@@ -95,6 +105,16 @@ module.exports = {
               borderRadius: '0 0.25rem 0.25rem 0',
               padding: '1rem',
               fontStyle: 'italic',
+            },
+            hr: {
+              borderColor: theme('colors.dark-border'),
+              marginTop: '2rem',
+              marginBottom: '2rem',
+              borderWidth: '1px',
+              opacity: 0.8,
+              background: 'linear-gradient(to right, transparent, ' + theme('colors.dark-border') + ', transparent)',
+              height: '1px',
+              border: 'none',
             },
             'blockquote p:first-of-type::before': {
               content: 'none',
