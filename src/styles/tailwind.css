@@ -7,7 +7,8 @@
     color-scheme: dark;
 }
 
-body, html {
+body,
+html {
     @apply min-h-screen;
 }
 
@@ -16,7 +17,9 @@ body, html {
 }
 
 @layer base {
-    #___gatsby, #gatsby-focus-wrapper {
+
+    #___gatsby,
+    #gatsby-focus-wrapper {
         @apply min-h-screen;
     }
 
@@ -36,13 +39,22 @@ body, html {
         @apply bg-dark-bg text-dark-text min-h-screen;
     }
 
+    hr {
+        @apply my-8 h-px border-0 bg-gradient-to-r from-transparent via-border-gray to-transparent opacity-80;
+    }
+
+    .dark hr {
+        @apply via-dark-border;
+    }
+
+    /* 标题样式修改，使用flex布局 */
     h1,
     h2,
     h3,
     h4,
     h5,
     h6 {
-        @apply font-light mb-4;
+        @apply font-light mb-4 flex items-center gap-2 relative;
     }
 
     .dark h1,
@@ -112,26 +124,71 @@ body, html {
     .prose blockquote {
         @apply text-text-gray border-l-4 border-border-gray pl-4 text-lg italic -tracking-tight bg-gray-50 p-4 rounded-r !important;
     }
-    
+
     .dark .prose blockquote {
         @apply text-gray-300 border-dark-link bg-gray-900 border-l-4 p-4 rounded-r !important;
     }
-    
+
     .prose blockquote p::before,
     .prose blockquote p::after {
         @apply content-none;
     }
-    
+
     .dark .prose blockquote p {
         @apply text-gray-300 !important;
     }
-    
+
     .dark .prose blockquote * {
         @apply text-gray-300 !important;
     }
-    
+
     .dark blockquote * {
         @apply text-gray-300;
+    }
+
+    /* 标题锚点图标样式 */
+    .header-link-icon {
+        @apply opacity-0 transition-opacity duration-200 flex-shrink-0;
+        width: 16px;
+        height: 16px;
+        margin-left: -1.5rem;
+    }
+
+    h1 .header-link-icon,
+    h2 .header-link-icon,
+    h3 .header-link-icon,
+    h4 .header-link-icon,
+    h5 .header-link-icon,
+    h6 .header-link-icon {
+        @apply opacity-0;
+    }
+
+    h1:hover .header-link-icon,
+    h2:hover .header-link-icon,
+    h3:hover .header-link-icon,
+    h4:hover .header-link-icon,
+    h5:hover .header-link-icon,
+    h6:hover .header-link-icon {
+        @apply opacity-60;
+    }
+
+    .header-link-icon:hover {
+        @apply opacity-100;
+    }
+
+    /* 调整暗色模式下锚点图标的颜色 */
+    .dark .header-link-icon svg path {
+        @apply fill-gray-400;
+    }
+
+    /* 确保标题文本可以换行 */
+    h1>span,
+    h2>span,
+    h3>span,
+    h4>span,
+    h5>span,
+    h6>span {
+        @apply break-words;
     }
 }
 
@@ -305,7 +362,7 @@ body, html {
     .prose {
         @apply max-w-none;
     }
-    
+
     .dark .prose {
         @apply bg-dark-bg text-dark-text;
     }
@@ -337,12 +394,12 @@ body, html {
             @apply bg-dark-bg border-dark-border text-dark-text;
         }
     }
-    
+
     /* 确保暗色模式背景覆盖整个页面 */
     .dark #gatsby-focus-wrapper {
         @apply bg-dark-bg min-h-screen;
     }
-    
+
     .dark #___gatsby {
         @apply bg-dark-bg min-h-screen;
     }
