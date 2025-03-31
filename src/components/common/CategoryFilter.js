@@ -22,15 +22,15 @@ const CategoryFilter = ({
 }) => {
     return (
         <div className={className}>
-            {categories.map(cat => (
+            {categories.map(category => (
                 <button
-                    key={cat.id}
-                    className={`${buttonClassName} ${activeCategory === cat.id ? activeButtonClassName : ''
+                    key={category.id}
+                    className={`${buttonClassName} ${activeCategory === category.id ? activeButtonClassName : ''
                         }`}
-                    onClick={() => onChange(cat.id)}
-                    aria-pressed={activeCategory === cat.id}
+                    onClick={() => onChange(category.id)}
+                    aria-pressed={activeCategory === category.id}
                 >
-                    {cat.name}
+                    {category.name}
                 </button>
             ))}
         </div>

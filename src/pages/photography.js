@@ -6,9 +6,7 @@ import CategoryFilter from '../components/common/CategoryFilter'
 import LoadMore from '../components/common/LoadMore'
 import photos from '../data/photos'
 import categories from '../data/categories'
-import { usePhotoFilter } from '../hooks/usePhotoFilter'
-import { usePagination } from '../hooks/usePagination'
-import { useLightbox } from '../hooks/useLightbox'
+import { usePhotoFilter, usePagination, useLightbox } from '../hooks'
 
 /**
  * 摄影作品页面
