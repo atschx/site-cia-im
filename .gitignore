@@ -2,6 +2,7 @@ node_modules/
 .cache/
 .DS_store
 public
+coverage/
 
 # 忽略static目录中的摄影图片，但保留目录结构和示例照片
 static/images/photographs/*
