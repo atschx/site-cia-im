@@ -2,10 +2,10 @@ import React from 'react';
 import { useTheme } from '../../hooks';
 
 /**
- * 主题切换按钮组件
- * 切换网站的暗黑模式和亮色模式
+ * Theme toggle button component
+ * Switches between dark mode and light mode
  */
-const ThemeToggle = () => {
+const ThemeToggle: React.FC = () => {
     const { theme, toggleTheme } = useTheme();
 
     return (
@@ -16,7 +16,7 @@ const ThemeToggle = () => {
             className="theme-toggle"
         >
             {theme === 'light' ? (
-                // 月亮图标 - 表示切换到暗黑模式
+                // Moon icon - indicates switch to dark mode
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -30,7 +30,7 @@ const ThemeToggle = () => {
                     />
                 </svg>
             ) : (
-                // 太阳图标 - 表示切换到亮色模式
+                // Sun icon - indicates switch to light mode
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -46,4 +46,4 @@ const ThemeToggle = () => {
     );
 };
 
-export default ThemeToggle; 
+export default React.memo(ThemeToggle);

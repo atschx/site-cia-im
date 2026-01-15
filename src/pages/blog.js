@@ -13,7 +13,7 @@ const BlogPage = ({ data }) => {
                 <p className="text-sm text-text-gray mb-2">{node.frontmatter.date}</p>
                 <h2 className="text-2xl font-light mb-3">
                   <Link
-                    to={`/blog/${node.slug}`}
+                    to={`/blog${node.fields.slug}`}
                     className="text-link-blue hover:text-gray-900 hover:underline"
                   >
                     {node.frontmatter.title}
@@ -23,7 +23,7 @@ const BlogPage = ({ data }) => {
                   <p className="text-text-gray text-base mb-4">{node.excerpt}</p>
                 )}
                 <Link
-                  to={`/blog/${node.slug}`}
+                  to={`/blog${node.fields.slug}`}
                   className="text-sm text-link-blue hover:text-gray-900 hover:underline inline-flex items-center"
                 >
                   阅读全文
@@ -43,7 +43,7 @@ const BlogPage = ({ data }) => {
 export const query = graphql`
 query{
   allMdx(
-    sort: {fields: frontmatter___date, order: DESC}
+    sort: {frontmatter: {date: DESC}}
     filter: {frontmatter: {tag: {ne: "bio"}}}
     ) {
     nodes {
@@ -52,7 +52,9 @@ query{
         title
       }
       id
-      slug
+      fields {
+        slug
+      }
       excerpt(pruneLength: 160)
     }
   }

@@ -1,10 +1,9 @@
 import * as React from 'react'
 import Layout from '../../components/layout'
 import { graphql } from 'gatsby'
-import { MDXRenderer } from 'gatsby-plugin-mdx'
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 
-const BlogPost = ({ data }) => {
+const BlogPost = ({ data, children }) => {
 
   // console.log(data.mdx.tableOfContents)
   const image = getImage(data.mdx.frontmatter.hero_image)
@@ -17,8 +16,6 @@ const BlogPost = ({ data }) => {
           <a href="https://github.com/atschx" className="text-link-blue hover:text-gray-900 hover:underline ml-1">
             {data.mdx.frontmatter.author}
           </a>
-          <span className="mx-2">|</span>
-          阅读本文需要 {data.mdx.timeToRead} 分钟
         </p>
       </header>
       <div className="mb-4 rounded-lg overflow-hidden shadow-lg">
@@ -35,9 +32,7 @@ const BlogPost = ({ data }) => {
         </a>
       </p>
       <div className="prose max-w-none mb-8 pl-6">
-        <MDXRenderer>
-          {data.mdx.body}
-        </MDXRenderer>
+        {children}
       </div>
     </Layout>
   )
@@ -58,9 +53,6 @@ export const query = graphql`query MyQuery($id: String) {
         }
       }
     }
-    body
-    timeToRead
-    tableOfContents
   }
 }
 `
