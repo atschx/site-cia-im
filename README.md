@@ -1,185 +1,244 @@
 # cia.im - 个人博客与摄影网站
 
-基于Gatsby构建的现代化个人博客和摄影作品展示网站，使用Tailwind CSS进行样式设计，提供响应式布局，支持MDX内容。
+基于 **Gatsby 5** 构建的现代化个人博客和摄影作品展示网站，使用 React 18、TypeScript 和 Tailwind CSS，支持暗黑模式和 MDX 内容。
+
+## ✨ 特性
+
+- 🚀 **Gatsby 5** - 最新版静态站点生成器，支持 Partial Hydration
+- ⚛️ **React 18** - 并发特性支持
+- 📝 **MDX v2** - Markdown + JSX，支持 GFM 语法
+- 🎨 **Tailwind CSS** - 实用优先的 CSS 框架
+- 🌙 **暗黑模式** - 支持明/暗主题切换，跟随系统偏好
+- 📷 **照片灯箱** - 摄影作品展示，支持缩放和导航
+- 🔷 **TypeScript** - 渐进式类型支持
+- 📱 **响应式设计** - 适配各种屏幕尺寸
+
+---
 
 ## 🚀 快速开始
 
 ### 环境要求
 
-- Node.js: v16.15.1 或更高版本
-- npm: v8.0.0 或更高版本
-- Gatsby CLI: v3.0.0 或更高版本
+| 工具 | 版本要求 |
+|------|----------|
+| Node.js | **v18.0.0** 或更高 (Gatsby 5 要求) |
+| npm | v9.0.0 或更高 |
 
-### 安装依赖
+> ⚠️ Gatsby 5 不再支持 Node.js 16，请确保使用 Node 18+
 
-1. 安装项目依赖
+### 安装与运行
 
-```shell
+```bash
+# 1. 克隆项目
+git clone git@github.com:atschx/site-cia-im.git
+cd site-cia-im
+
+# 2. 安装依赖
 npm install
-```
 
-2. 安装Gatsby命令行工具(如果尚未安装)
-
-```shell
-npm install -g gatsby-cli
-```
-
-### 开发与构建
-
-**开发模式**
-
-启动开发服务器，支持热重载：
-
-```shell
-gatsby develop
-# 或
+# 3. 启动开发服务器
 npm run develop
 ```
 
-然后访问: [http://localhost:8000](http://localhost:8000)
+访问地址：
+- 🌐 网站：[http://localhost:8000](http://localhost:8000)
+- 🔍 GraphQL：[http://localhost:8000/___graphql](http://localhost:8000/___graphql)
 
-GraphQL查询工具: [http://localhost:8000/___graphql](http://localhost:8000/___graphql)
+### 常用命令
 
-**生产构建**
+| 命令 | 说明 |
+|------|------|
+| `npm run develop` | 启动开发服务器（热重载） |
+| `npm run build` | 构建生产版本 |
+| `npm run serve` | 本地预览生产版本 |
+| `npm run clean` | 清理 `.cache` 和 `public` 目录 |
 
-构建生产版本：
-
-```shell
-gatsby build
-# 或
-npm run build
-```
-
-本地预览生产版本：
-
-```shell
-gatsby serve
-# 或
-npm run serve
-```
-
-**清理缓存**
-
-遇到不明问题时，可以尝试清理缓存：
-
-```shell
-gatsby clean
-# 或
-npm run clean
-```
+---
 
 ## 📂 项目结构
 
 ```
-/
-├── blog/                 # 博客文章 (MDX格式)
+site-cia-im/
+├── blog/                     # 博客文章 (MDX 格式)
+│   └── {article}/
+│       └── index.mdx
 ├── src/
-│   ├── components/       # React组件
-│   ├── images/           # 图片资源
-│   ├── pages/            # 页面组件
-│   └── styles/           # 全局样式和Tailwind配置
-├── static/               # 静态文件，直接复制到构建输出
-├── gatsby-config.js      # Gatsby配置
-├── gatsby-browser.js     # 浏览器相关配置
-├── tailwind.config.js    # Tailwind CSS配置
-└── postcss.config.js     # PostCSS配置
+│   ├── components/           # React 组件
+│   │   ├── common/           # 通用组件 (ThemeToggle, LoadMore 等)
+│   │   ├── layout/           # 布局组件
+│   │   └── photo-lightbox/   # 照片灯箱组件
+│   ├── hooks/                # 自定义 Hooks (TypeScript)
+│   │   ├── useTheme.ts       # 主题切换
+│   │   ├── filter/           # 过滤相关
+│   │   └── pagination/       # 分页相关
+│   ├── types/                # TypeScript 类型定义
+│   ├── pages/                # 页面组件
+│   ├── templates/            # 页面模板
+│   ├── data/                 # 静态数据
+│   ├── styles/               # 全局样式
+│   └── utils/                # 工具函数
+├── static/
+│   └── images/
+│       └── photographs/      # 摄影作品图片
+├── gatsby-config.js          # Gatsby 配置
+├── gatsby-node.js            # Gatsby Node API
+├── gatsby-browser.js         # 浏览器端配置
+├── tailwind.config.js        # Tailwind CSS 配置
+├── tsconfig.json             # TypeScript 配置
+└── postcss.config.js         # PostCSS 配置
 ```
 
 ### 关键文件说明
 
-- `gatsby-config.js`: 站点元数据和插件配置
-- `src/components/layout/index.js`: 全局布局组件
-- `src/styles/tailwind.css`: Tailwind CSS基础样式和自定义组件
-- `tailwind.config.js`: Tailwind主题扩展和配置
+| 文件 | 说明 |
+|------|------|
+| `gatsby-config.js` | 站点元数据、插件配置、MDX 选项 |
+| `gatsby-node.js` | 动态创建页面、生成 slug 字段 |
+| `src/types/` | TypeScript 类型定义 (Theme, Photo, Category) |
+| `src/hooks/` | 自定义 React Hooks |
+| `tailwind.config.js` | Tailwind 主题扩展、暗黑模式配置 |
 
-## 🎨 主要功能
+---
 
-- **博客系统**: 支持MDX格式博客文章，代码高亮
-- **响应式设计**: 在各种屏幕尺寸下都能良好显示
-- **摄影作品集**: 展示照片作品，支持分类和灯箱查看
-- **自定义主题**: 通过Tailwind CSS配置定制主题颜色和样式
+## 📝 内容管理
 
-## ❓ 常见问题解答
+### 添加博客文章
 
-### Q: 如何添加新的博客文章?
+在 `blog/` 目录下创建文件夹和 `index.mdx` 文件：
 
-A: 在`blog`目录下创建新的`.mdx`文件。文件应包含front matter元数据，例如：
+```
+blog/
+└── my-new-post/
+    ├── index.mdx
+    └── cover.jpg          # 可选：封面图片
+```
+
+MDX 文件格式：
 
 ```mdx
 ---
-title: "我的新文章"
-date: "2023-03-15"
+title: "文章标题"
+date: "2026-01-16"
 author: "作者名"
-hero_image: "../src/images/example.jpg"
-hero_image_alt: "图片描述"
-hero_image_credit_text: "图片来源"
-hero_image_credit_link: "https://example.com"
+tag: "tech"
+hero_image: "./cover.jpg"
+hero_image_alt: "封面图片描述"
 ---
 
-这里是文章内容...
+这里是文章内容，支持 **Markdown** 和 JSX 组件。
+
+## 支持 GFM 语法
+
+- [x] 任务列表
+- [ ] 待完成
+
+| 表格 | 支持 |
+|------|------|
+| 是   | ✅   |
 ```
 
-### Q: 如何自定义网站主题颜色?
+### 关于页面
 
-A: 编辑`tailwind.config.js`文件中的`theme.extend.colors`部分来更改主题颜色。
+关于页面通过 `tag: "bio"` 标识，在 `blog/about.mdx` 中编辑。
 
-### Q: 如何添加新页面?
+---
 
-A: 在`src/pages`目录中创建新的React组件文件。文件名将成为URL路径。
+## 🎨 主题定制
 
-### Q: 如何解决构建错误?
+### 暗黑模式
 
-A: 尝试以下方法:
-1. 运行`gatsby clean`清理缓存
-2. 检查依赖项版本兼容性
-3. 查看Gatsby和相关插件的文档
-4. 如果使用`group`类或其他Tailwind特殊类，确保正确应用方式
+项目支持系统级暗黑模式偏好，也可手动切换。相关文件：
+
+- `src/hooks/useTheme.ts` - 主题状态管理
+- `src/components/common/ThemeToggle.tsx` - 切换按钮组件
+- `tailwind.config.js` - 暗黑模式颜色配置
+
+### 自定义颜色
+
+编辑 `tailwind.config.js` 中的 `theme.extend.colors`：
+
+```js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        'link-blue': '#3182ce',
+        'dark-bg': '#1a202c',
+        'dark-text': '#e2e8f0',
+        // 添加自定义颜色...
+      }
+    }
+  }
+}
+```
+
+---
+
+## 🖼️ 图片资源
+
+摄影作品图片存放在 `static/images/photographs/` 目录，该目录未纳入 Git 版本控制。
+
+### 获取图片资源
+
+1. **联系维护者** 获取完整图片包
+2. **使用示例图片** - 放置几张图片到目录中即可
+3. **回退机制** - 缺失图片会自动显示占位图
+
+---
 
 ## 📚 技术栈
 
-- [Gatsby](https://www.gatsbyjs.com/) - React静态站点生成器
-- [React](https://reactjs.org/) - 用户界面库
-- [Tailwind CSS](https://tailwindcss.com/) - 实用优先的CSS框架
-- [MDX](https://mdxjs.com/) - Markdown + JSX
-- [GraphQL](https://graphql.org/) - API查询语言
+| 技术 | 版本 | 说明 |
+|------|------|------|
+| [Gatsby](https://www.gatsbyjs.com/) | 5.13.x | React 静态站点生成器 |
+| [React](https://react.dev/) | 18.2.x | 用户界面库 |
+| [TypeScript](https://www.typescriptlang.org/) | 5.9.x | 类型安全 |
+| [MDX](https://mdxjs.com/) | 2.3.x | Markdown + JSX |
+| [Tailwind CSS](https://tailwindcss.com/) | 3.3.x | CSS 框架 |
+| [Prism.js](https://prismjs.com/) | 1.29.x | 代码高亮 |
+
+---
+
+## ❓ 常见问题
+
+### 构建失败怎么办？
+
+```bash
+# 1. 清理缓存
+npm run clean
+
+# 2. 删除 node_modules 重新安装
+rm -rf node_modules package-lock.json
+npm install
+
+# 3. 检查 Node.js 版本
+node -v  # 确保 >= 18.0.0
+```
+
+### GraphQL 查询报错？
+
+Gatsby 5 的 GraphQL 语法有变化：
+
+```graphql
+# ❌ 旧语法
+sort: {fields: frontmatter___date, order: DESC}
+
+# ✅ 新语法
+sort: {frontmatter: {date: DESC}}
+```
+
+### TypeScript 类型错误？
+
+项目采用渐进式 TypeScript 迁移，`tsconfig.json` 配置了 `allowJs: true`，允许 JS/TS 混合。
+
+---
 
 ## 📄 许可证
 
 MIT
 
-## 图片资源说明
+---
 
-本项目的图片资源存放在 `static/images/photographs` 目录下，但这些图片文件**未包含在Git仓库**中。
+## 👤 作者
 
-### 新开发者需要做什么
-
-1. 获取图片资源包（联系项目维护者）
-2. 将图片放入 `static/images/photographs` 目录
-3. 或者使用以下任一方法：
-
-#### 方法一：使用少量示例图片
-
-1. 在 `static/images/photographs` 放置几张示例图片
-2. 这些图片会通过 `ImageWithFallback` 组件显示
-
-#### 方法二：使用远程CDN
-
-1. 复制 `.env.example` 为 `.env.development`
-2. 设置 `IMAGE_CDN_URL` 为您的CDN地址
-3. 设置 `USE_LOCAL_IMAGES=false`
-
-#### 方法三：使用回退图片
-
-如果您暂时无法获取完整图片资源，代码中已经实现了回退机制。系统会自动显示占位图片，保证页面正常渲染。
-
-### Gatsby目录结构说明
-
-本项目遵循Gatsby的标准目录结构：
-
-- `static/` - 存放不需要经过处理的静态资源
-  - `static/images/` - 存放图片资源
-    - `static/images/photographs/` - 存放摄影作品图片
-  - 这些文件会被直接复制到构建输出的`public`目录中
-
-- `src/` - 源代码目录
-  - `src/images/` - 需要经过Gatsby图像处理系统处理的图片
+**Albert** - [cia.im](https://cia.im)
