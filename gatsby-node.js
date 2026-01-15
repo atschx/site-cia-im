@@ -17,10 +17,18 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
-  // Query for the about MDX file
+  // Query for special MDX pages (home and about)
   const result = await graphql(`
     query {
-      mdx(frontmatter: {tag: {eq: "bio"}}) {
+      # 首页 MDX (tag: "home")
+      homeMdx: mdx(frontmatter: { tag: { eq: "home" } }) {
+        id
+        internal {
+          contentFilePath
+        }
+      }
+      # 关于页面 MDX (tag: "bio")
+      aboutMdx: mdx(frontmatter: { tag: { eq: "bio" } }) {
         id
         internal {
           contentFilePath
@@ -33,15 +41,27 @@ exports.createPages = async ({ graphql, actions }) => {
     throw result.errors
   }
 
-  // Create about page from the bio MDX
-  const aboutMdx = result.data.mdx
+  // Create home page from MDX
+  const homeMdx = result.data.homeMdx
+  if (homeMdx) {
+    createPage({
+      path: '/',
+      component: `${path.resolve('./src/templates/home-page.tsx')}?__contentFilePath=${homeMdx.internal.contentFilePath}`,
+      context: {
+        id: homeMdx.id,
+      },
+    })
+  }
+
+  // Create about page from MDX
+  const aboutMdx = result.data.aboutMdx
   if (aboutMdx) {
     createPage({
       path: '/about',
-      component: `${path.resolve('./src/templates/about-page.js')}?__contentFilePath=${aboutMdx.internal.contentFilePath}`,
+      component: `${path.resolve('./src/templates/about-page.tsx')}?__contentFilePath=${aboutMdx.internal.contentFilePath}`,
       context: {
-        id: aboutMdx.id
-      }
+        id: aboutMdx.id,
+      },
     })
   }
 }

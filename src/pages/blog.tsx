@@ -71,7 +71,7 @@ export const query = graphql`
   query {
     allMdx(
       sort: { frontmatter: { date: DESC } }
-      filter: { frontmatter: { tag: { ne: "bio" } } }
+      filter: { frontmatter: { tag: { nin: ["bio", "home"] } } }
     ) {
       nodes {
         frontmatter {
