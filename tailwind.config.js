@@ -93,7 +93,16 @@ module.exports = {
               color: theme('colors.dark-text'),
             },
             code: {
-              color: theme('colors.dark-text'),
+              color: theme('colors.gray.300'),
+              backgroundColor: '#1e293b',
+            },
+            'pre': {
+              backgroundColor: '#1e293b', // slate-800
+              color: theme('colors.gray.300'),
+            },
+            'pre code': {
+              backgroundColor: 'transparent',
+              color: 'inherit',
             },
             figcaption: {
               color: theme('colors.gray.400'),
@@ -101,10 +110,13 @@ module.exports = {
             blockquote: {
               color: theme('colors.gray.300'),
               borderLeftColor: theme('colors.dark-link'),
-              backgroundColor: theme('colors.gray.900'),
+              backgroundColor: '#1e293b', // slate-800，与暗色背景协调
               borderRadius: '0 0.25rem 0.25rem 0',
               padding: '1rem',
               fontStyle: 'italic',
+            },
+            'blockquote p': {
+              color: theme('colors.gray.300'),
             },
             hr: {
               borderColor: theme('colors.dark-border'),

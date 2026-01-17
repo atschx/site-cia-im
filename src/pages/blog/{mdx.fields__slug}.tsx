@@ -21,7 +21,7 @@ interface BlogPostData {
   };
 }
 
-interface BlogPostProps extends PageProps<BlogPostData> {
+interface BlogPostProps extends Omit<PageProps<BlogPostData>, 'children'> {
   children: React.ReactNode;
 }
 
