@@ -1,6 +1,7 @@
 import React from 'react';
 import { GatsbyImage, getImage, IGatsbyImageData } from 'gatsby-plugin-image';
 import { PhotoContainerProps } from '../types';
+import { getPhotoImageSrc, getPhotoTitle } from '../../../utils/photoUtils';
 
 /**
  * 照片容器组件 - 负责照片的渲染和交互
@@ -20,30 +21,19 @@ const PhotoContainer: React.FC<PhotoContainerProps> = ({
         return (
           <GatsbyImage
             image={image}
-            alt={photo.title || '照片'}
+            alt={getPhotoTitle(photo)}
             className="max-h-full max-w-full object-contain"
           />
         );
       }
     }
 
-    if (photo.originalSrc) {
+    const imageSrc = getPhotoImageSrc(photo, true);
+    if (imageSrc) {
       return (
         <img
-          src={photo.originalSrc}
-          alt={photo.title || '照片'}
-          className="max-h-full max-w-full object-contain"
-          draggable="false"
-          onLoad={handlers.handleImageLoad}
-        />
-      );
-    }
-
-    if (photo.src) {
-      return (
-        <img
-          src={photo.src}
-          alt={photo.title || '照片'}
+          src={imageSrc}
+          alt={getPhotoTitle(photo)}
           className="max-h-full max-w-full object-contain"
           draggable="false"
           onLoad={handlers.handleImageLoad}
@@ -60,7 +50,7 @@ const PhotoContainer: React.FC<PhotoContainerProps> = ({
         isPortrait ? 'h-[70vh] w-auto' : 'w-full h-[70vh]'
       }`}
       onWheel={handlers.handleWheel}
-      aria-label={`查看照片: ${photo.title || '照片'}`}
+      aria-label={`查看照片: ${getPhotoTitle(photo)}`}
       onClick={handlers.handleImageClick}
       onMouseDown={handlers.handleMouseDown}
       onKeyDown={handlers.handleKeyboardShortcuts}

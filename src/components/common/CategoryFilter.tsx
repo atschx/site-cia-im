@@ -20,30 +20,42 @@ interface CategoryFilterProps {
  * 分类筛选组件
  * 显示分类按钮组，支持选择分类
  */
-const CategoryFilter: React.FC<CategoryFilterProps> = ({
-  categories,
-  activeCategory,
-  onChange,
-  className = 'category-filter',
-  buttonClassName = 'category-button',
-  activeButtonClassName = 'category-button-active',
-}) => {
-  return (
-    <div className={className}>
-      {categories.map((category) => (
-        <button
-          key={category.id}
-          className={`${buttonClassName} ${
-            activeCategory === category.id ? activeButtonClassName : ''
-          }`}
-          onClick={() => onChange(category.id)}
-          aria-pressed={activeCategory === category.id}
-        >
-          {category.name}
-        </button>
-      ))}
-    </div>
-  );
-};
+const CategoryFilter: React.FC<CategoryFilterProps> = React.memo(
+  ({
+    categories,
+    activeCategory,
+    onChange,
+    className = 'category-filter',
+    buttonClassName = 'category-button',
+    activeButtonClassName = 'category-button-active',
+  }) => {
+    return (
+      <nav className={className} aria-label="照片分类筛选">
+        {categories.map((category) => (
+          <button
+            key={category.id}
+            className={`${buttonClassName} ${
+              activeCategory === category.id ? activeButtonClassName : ''
+            } focus:outline-none focus:ring-2 focus:ring-link-blue dark:focus:ring-dark-link focus:ring-offset-2`}
+            onClick={() => onChange(category.id)}
+            aria-pressed={activeCategory === category.id}
+            aria-current={activeCategory === category.id ? 'true' : undefined}
+          >
+            {category.name}
+          </button>
+        ))}
+      </nav>
+    );
+  },
+  (prevProps, nextProps) => {
+    // Only re-render if categories or activeCategory change
+    return (
+      prevProps.categories === nextProps.categories &&
+      prevProps.activeCategory === nextProps.activeCategory
+    );
+  }
+);
+
+CategoryFilter.displayName = 'CategoryFilter';
 
 export default CategoryFilter;

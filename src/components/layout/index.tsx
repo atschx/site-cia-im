@@ -7,6 +7,8 @@ interface LayoutProps {
   pageTitle?: string;
   /** 是否禁用 prose 样式 */
   noProse?: boolean;
+  /** 是否使用自定义页脚（不渲染默认页脚） */
+  customFooter?: boolean;
   /** 子元素 */
   children: React.ReactNode;
 }
@@ -19,7 +21,7 @@ interface SiteMetadata {
   };
 }
 
-const Layout: React.FC<LayoutProps> = ({ pageTitle, noProse, children }) => {
+const Layout: React.FC<LayoutProps> = ({ pageTitle, noProse, customFooter, children }) => {
   // 基于 graphql 获取 gatsby-config.js 中配置的网站标题信息。
   const data = useStaticQuery<SiteMetadata>(graphql`
     query {
@@ -99,20 +101,22 @@ const Layout: React.FC<LayoutProps> = ({ pageTitle, noProse, children }) => {
         </div>
       </main>
 
-      {/* 页脚部分 */}
-      <footer className="border-t border-border-gray py-8 mt-auto text-text-gray dark:border-dark-border dark:text-gray-400">
-        <div className="flex flex-col md:flex-row justify-between">
-          <div className="mb-4 md:mb-0">
-            <h2 className="text-lg font-light mb-4 dark:text-dark-text">
-              write now,think more(different)
-            </h2>
-            <p className="text-sm dark:text-gray-400">在宇宙中留下你的足迹</p>
+      {/* 页脚部分 - customFooter 时由页面自己渲染 */}
+      {!customFooter && (
+        <footer className="border-t border-border-gray py-8 mt-auto text-text-gray dark:border-dark-border dark:text-gray-400">
+          <div className="flex flex-col md:flex-row justify-between">
+            <div className="mb-4 md:mb-0">
+              <h2 className="text-lg font-light mb-4 dark:text-dark-text">
+                write now,think more(different)
+              </h2>
+              <p className="text-sm dark:text-gray-400">在宇宙中留下你的足迹</p>
+            </div>
+            <div className="text-sm text-right">
+              © {new Date().getFullYear()} 保留所有权利
+            </div>
           </div>
-          <div className="text-sm text-right">
-            © {new Date().getFullYear()} 保留所有权利
-          </div>
-        </div>
-      </footer>
+        </footer>
+      )}
     </div>
   );
 };

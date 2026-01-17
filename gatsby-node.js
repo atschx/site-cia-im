@@ -17,16 +17,9 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
-  // Query for special MDX pages (home and about)
+  // Query for special MDX pages (about only, home is now static)
   const result = await graphql(`
     query {
-      # 首页 MDX (tag: "home")
-      homeMdx: mdx(frontmatter: { tag: { eq: "home" } }) {
-        id
-        internal {
-          contentFilePath
-        }
-      }
       # 关于页面 MDX (tag: "bio")
       aboutMdx: mdx(frontmatter: { tag: { eq: "bio" } }) {
         id
@@ -39,18 +32,6 @@ exports.createPages = async ({ graphql, actions }) => {
 
   if (result.errors) {
     throw result.errors
-  }
-
-  // Create home page from MDX
-  const homeMdx = result.data.homeMdx
-  if (homeMdx) {
-    createPage({
-      path: '/',
-      component: `${path.resolve('./src/templates/home-page.tsx')}?__contentFilePath=${homeMdx.internal.contentFilePath}`,
-      context: {
-        id: homeMdx.id,
-      },
-    })
   }
 
   // Create about page from MDX

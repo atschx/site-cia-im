@@ -2,6 +2,8 @@ module.exports = {
   siteMetadata: {
     siteUrl: "https://cia.im",
     title: "Always-fat's Blog",
+    description: "A personal blog and photography portfolio showcasing thoughts, code, and moments captured through the lens.",
+    author: "Albert",
   },
   plugins: [
     "gatsby-plugin-postcss",
@@ -9,6 +11,15 @@ module.exports = {
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
+    "gatsby-plugin-sitemap",
+    {
+      resolve: "gatsby-plugin-robots-txt",
+      options: {
+        host: "https://cia.im",
+        sitemap: "https://cia.im/sitemap-index.xml",
+        policy: [{ userAgent: "*", allow: "/" }],
+      },
+    },
     {
       resolve: 'gatsby-plugin-mdx',
       options: {

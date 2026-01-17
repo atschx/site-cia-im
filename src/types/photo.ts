@@ -13,7 +13,6 @@ export interface Photo {
   aperture: string;
   thumbnailSrc?: string;
   originalSrc?: string;
-  src?: string; // For external URLs
   gatsbyImageData?: any; // For Gatsby image data
 }
 

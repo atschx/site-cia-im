@@ -2,6 +2,7 @@ import * as React from 'react';
 import { GatsbyImage, getImage, IGatsbyImageData } from 'gatsby-plugin-image';
 import ImageWithFallback from './common/ImageWithFallback';
 import { Photo } from '../types';
+import { getPhotoImageSrc, getPhotoTitle } from '../utils/photoUtils';
 
 interface PhotoGridProps {
   /** 照片数组 */
@@ -34,38 +35,31 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({
     );
   }
 
-  // 获取图片源URL
-  const getPhotoSrc = (photo: Photo): string => {
-    if (photo.thumbnailSrc) return photo.thumbnailSrc;
-    if (photo.src) return photo.src;
-    return fallbackImagePath;
-  };
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {photos.map((photo) => (
+      {photos.map((photo, index) => (
         <div
           key={photo.id}
-          className="relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer dark:shadow-gray-900"
+          className="relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer dark:shadow-gray-900 focus:outline-none focus:ring-2 focus:ring-link-blue dark:focus:ring-dark-link focus:ring-offset-2 dark:focus:ring-offset-gray-900"
           onClick={() => onPhotoClick?.(photo)}
           onKeyDown={(e) => handleKeyDown(photo, e)}
           role="button"
           tabIndex={0}
-          aria-label={`查看照片: ${photo.title}`}
+          aria-label={`查看照片 ${index + 1} 共 ${photos.length} 张: ${photo.title}，${photo.location}`}
         >
           <div className="w-full aspect-[4/3] overflow-hidden">
             {photo.gatsbyImageData ? (
               // 对于Gatsby GraphQL查询的图片数据
               <GatsbyImage
                 image={getImage(photo.gatsbyImageData as IGatsbyImageData)!}
-                alt={photo.title || '照片'}
+                alt={getPhotoTitle(photo)}
                 className="w-full h-full object-cover"
               />
             ) : (
               // 使用带备用功能的图片组件
               <ImageWithFallback
-                src={getPhotoSrc(photo)}
-                alt={photo.title || '照片'}
+                src={getPhotoImageSrc(photo, false, fallbackImagePath)}
+                alt={getPhotoTitle(photo)}
                 fallbackSrc={fallbackImagePath}
                 className="w-full h-full object-cover"
               />

@@ -20,24 +20,35 @@ interface LoadMoreProps {
 /**
  * 加载更多按钮组件
  */
-const LoadMore: React.FC<LoadMoreProps> = ({
-  onClick,
-  hasMore,
-  loading = false,
-  loadingText = '加载中...',
-  loadMoreText = '加载更多',
-  className = 'mt-8 text-center',
-  buttonClassName = 'px-4 py-2 bg-link-blue text-white rounded hover:bg-link-blue/80 transition-colors disabled:opacity-50 dark:bg-dark-link dark:hover:bg-dark-link/80',
-}) => {
-  if (!hasMore) return null;
+const LoadMore: React.FC<LoadMoreProps> = React.memo(
+  ({
+    onClick,
+    hasMore,
+    loading = false,
+    loadingText = '加载中...',
+    loadMoreText = '加载更多',
+    className = 'mt-8 text-center',
+    buttonClassName = 'px-4 py-2 bg-link-blue text-white rounded hover:bg-link-blue/80 transition-colors disabled:opacity-50 dark:bg-dark-link dark:hover:bg-dark-link/80',
+  }) => {
+    if (!hasMore) return null;
 
-  return (
-    <div className={className}>
-      <button className={buttonClassName} onClick={onClick} disabled={loading}>
-        {loading ? loadingText : loadMoreText}
-      </button>
-    </div>
-  );
-};
+    return (
+      <div className={className}>
+        <button className={buttonClassName} onClick={onClick} disabled={loading}>
+          {loading ? loadingText : loadMoreText}
+        </button>
+      </div>
+    );
+  },
+  (prevProps, nextProps) => {
+    // Only re-render if hasMore or loading state changes
+    return (
+      prevProps.hasMore === nextProps.hasMore &&
+      prevProps.loading === nextProps.loading
+    );
+  }
+);
+
+LoadMore.displayName = 'LoadMore';
 
 export default LoadMore;

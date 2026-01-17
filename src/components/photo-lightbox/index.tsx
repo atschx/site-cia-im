@@ -52,7 +52,19 @@ const PhotoLightbox: React.FC<PhotoLightboxProps> = (props) => {
       role="dialog"
       aria-modal="true"
       aria-labelledby="lightbox-title"
+      aria-describedby="lightbox-description"
     >
+      {/* 屏幕阅读器实时更新区域 */}
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+        id="lightbox-description"
+      >
+        正在查看照片: {photo.title}，{photo.location}
+      </div>
+
       {/* 背景按钮 - 点击即关闭灯箱 */}
       <button
         className="absolute inset-0 w-full h-full bg-transparent border-0 cursor-pointer"

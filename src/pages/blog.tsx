@@ -88,4 +88,19 @@ export const query = graphql`
   }
 `;
 
+export const Head = () => (
+  <>
+    <title>博客 | Always-fat's Blog</title>
+    <meta name="description" content="探索关于技术、编程、思考和生活的文章。分享我的学习经验和见解。" />
+    <meta name="keywords" content="博客, 技术, 编程, 前端开发, React, Gatsby" />
+    <meta property="og:title" content="博客 | Always-fat's Blog" />
+    <meta property="og:description" content="探索关于技术、编程、思考和生活的文章。分享我的学习经验和见解。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cia.im/blog/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="博客 | Always-fat's Blog" />
+    <meta name="twitter:description" content="探索关于技术、编程、思考和生活的文章。分享我的学习经验和见解。" />
+  </>
+);
+
 export default BlogPage;

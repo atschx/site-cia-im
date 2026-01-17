@@ -11,9 +11,10 @@ const ThemeToggle: React.FC = () => {
     return (
         <button
             aria-label={`切换到${theme === 'light' ? '暗黑' : '亮色'}模式`}
+            aria-pressed={theme === 'dark'}
             title={`切换到${theme === 'light' ? '暗黑' : '亮色'}模式`}
             onClick={toggleTheme}
-            className="theme-toggle"
+            className="theme-toggle focus:outline-none focus:ring-2 focus:ring-link-blue dark:focus:ring-dark-link focus:ring-offset-2 dark:focus:ring-offset-gray-900"
         >
             {theme === 'light' ? (
                 // Moon icon - indicates switch to dark mode

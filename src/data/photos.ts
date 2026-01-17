@@ -17,7 +17,7 @@ const photos: Photo[] = [
     camera: 'Sony A7III',
     lens: '24-70mm f/2.8',
     aperture: 'f/8',
-    thumbnailSrc: '/images/placeholder-1.jpg',
+    thumbnailSrc: '/images/photographs/SUN_5872.jpg',
     originalSrc: '/images/photographs/SUN_5872.jpg',
   },
   {
@@ -29,7 +29,7 @@ const photos: Photo[] = [
     camera: 'Canon EOS R5',
     lens: '16-35mm f/2.8',
     aperture: 'f/11',
-    thumbnailSrc: '/images/placeholder-2.jpg',
+    thumbnailSrc: '/images/photographs/DSC_4964.jpg',
     originalSrc: '/images/photographs/DSC_4964.jpg',
   },
   {
@@ -41,7 +41,7 @@ const photos: Photo[] = [
     camera: 'Fujifilm X-T4',
     lens: '10-24mm f/4',
     aperture: 'f/5.6',
-    thumbnailSrc: '/images/placeholder-3.jpg',
+    thumbnailSrc: '/images/photographs/DSC_4927.jpg',
     originalSrc: '/images/photographs/DSC_4927.jpg',
   },
   {
@@ -53,7 +53,7 @@ const photos: Photo[] = [
     camera: 'Nikon Z6 II',
     lens: '24-70mm f/4',
     aperture: 'f/8',
-    thumbnailSrc: '/images/placeholder-1.jpg',
+    thumbnailSrc: '/images/photographs/DSC_3681.jpg',
     originalSrc: '/images/photographs/DSC_3681.jpg',
   },
   {
@@ -65,7 +65,8 @@ const photos: Photo[] = [
     camera: 'Canon EOS R5',
     lens: '16-35mm f/2.8',
     aperture: 'f/11',
-    src: 'https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=800&h=600&q=80',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=400&h=300&q=80',
+    originalSrc: 'https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=800&h=600&q=80',
   },
   {
     id: 6,
@@ -76,7 +77,8 @@ const photos: Photo[] = [
     camera: 'Fujifilm X-T4',
     lens: '10-24mm f/4',
     aperture: 'f/5.6',
-    src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&q=80',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=300&q=80',
+    originalSrc: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&q=80',
   },
   {
     id: 7,
@@ -87,7 +89,8 @@ const photos: Photo[] = [
     camera: 'Nikon Z6 II',
     lens: '85mm f/1.8',
     aperture: 'f/2.0',
-    src: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=600&q=80',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=300&q=80',
+    originalSrc: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=600&q=80',
   },
   {
     id: 8,
@@ -98,7 +101,8 @@ const photos: Photo[] = [
     camera: 'Sony A7III',
     lens: '16-35mm f/2.8',
     aperture: 'f/11',
-    src: 'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=800&h=600&q=80',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=400&h=300&q=80',
+    originalSrc: 'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=800&h=600&q=80',
   },
   {
     id: 9,
@@ -109,7 +113,8 @@ const photos: Photo[] = [
     camera: 'Canon EOS R6',
     lens: '50mm f/1.2',
     aperture: 'f/1.8',
-    src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&h=600&q=80',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=300&q=80',
+    originalSrc: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&h=600&q=80',
   },
   {
     id: 10,
@@ -120,7 +125,8 @@ const photos: Photo[] = [
     camera: 'Fujifilm X-T4',
     lens: '18-55mm f/2.8-4',
     aperture: 'f/4.0',
-    src: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&h=600&q=80',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=300&q=80',
+    originalSrc: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&h=600&q=80',
   },
   {
     id: 11,
@@ -131,7 +137,8 @@ const photos: Photo[] = [
     camera: 'Sony A7R IV',
     lens: '90mm f/2.8 Macro',
     aperture: 'f/5.6',
-    src: 'https://images.unsplash.com/photo-1457089328109-e5d9bd499191?w=800&h=600&q=80',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1457089328109-e5d9bd499191?w=400&h=300&q=80',
+    originalSrc: 'https://images.unsplash.com/photo-1457089328109-e5d9bd499191?w=800&h=600&q=80',
   },
   {
     id: 12,
@@ -142,7 +149,8 @@ const photos: Photo[] = [
     camera: 'Nikon Z7 II',
     lens: '14-30mm f/4',
     aperture: 'f/8',
-    src: 'https://images.unsplash.com/photo-1486718448742-163732cd1544?w=800&h=600&q=80',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1486718448742-163732cd1544?w=400&h=300&q=80',
+    originalSrc: 'https://images.unsplash.com/photo-1486718448742-163732cd1544?w=800&h=600&q=80',
   },
 ];
 

@@ -80,8 +80,30 @@ export const query = graphql`
           }
         }
       }
+      excerpt(pruneLength: 160)
     }
   }
 `;
+
+export const Head: React.FC<PageProps<BlogPostData>> = ({ data }) => {
+  const { title, author, date } = data.mdx.frontmatter;
+  const excerpt = (data.mdx as any).excerpt || '';
+
+  return (
+    <>
+      <title>{title} | Always-fat's Blog</title>
+      <meta name="description" content={excerpt} />
+      <meta name="author" content={author} />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={excerpt} />
+      <meta property="og:type" content="article" />
+      <meta property="article:author" content={author} />
+      <meta property="article:published_time" content={date} />
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={excerpt} />
+    </>
+  );
+};
 
 export default BlogPost;
