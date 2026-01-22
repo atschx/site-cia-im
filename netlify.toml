@@ -16,9 +16,10 @@
   NPM_FLAGS = "--legacy-peer-deps"
 
 # Gatsby build cache plugin for faster builds
-# This caches .cache and public directories between builds
-[[plugins]]
-  package = "netlify-plugin-gatsby-cache"
+# Note: Disabled due to compatibility issues with Gatsby 5.13+ adapters
+# Netlify automatically caches .cache and public directories
+# [[plugins]]
+#   package = "netlify-plugin-gatsby-cache"
 
 # Redirect rules (optional - customize as needed)
 # Example: redirect /old-path to /new-path
